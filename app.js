@@ -54,7 +54,7 @@ app.use('/text2', bodyParser.urlencoded({
 }));
 
 app.post('/text2', function(req, res, next) {
-  connection.query('update education set analis = \''+req.body.text+'\' where id = '+req.body.id+'', function (error, results, fields) {
+  connection.query('update education set text = "'+req.body.text2+'", analis = \''+req.body.text+'\' where id = '+req.body.id+'', function (error, results, fields) {
     if (error) throw error;
     console.log('results.ok');
   });

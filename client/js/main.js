@@ -100,6 +100,7 @@ $('.wright-text').click(function () {
 $('.wright-analis').click(function () {
 
   var query = {
+    text2: $('.text-for-analis input').val(),
       text: $('.text2').val(),
       id: $('.id-text').text()
   };
