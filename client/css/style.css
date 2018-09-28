@@ -28,7 +28,10 @@
 .non-select{
  transform: scale(0.5) !important;
 }
-
+.id-text{
+	color: #fff;
+	font-size: 3em;
+}
 .icon-app:nth-child(1){
   transform: scale(1.058);
 }

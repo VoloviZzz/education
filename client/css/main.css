@@ -309,7 +309,10 @@ header {
 .signin {
   padding-top: 9px;
 }
-
+.id-text{
+	color: #fff;
+	font-size: 3em;
+}
 
 .mouse-icon {
     border: 2px solid #fff;
