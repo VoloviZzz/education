@@ -24,7 +24,7 @@ app.get('/', function (req, res, next) {
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'app',
+  user     : 'root',
   password : '1234567',
   database : 'elmsoftware'
 });
@@ -45,6 +45,19 @@ app.post('/text', function(req, res, next) {
     if (error) throw error;
     console.log(results.insertId);
     res.send({status: 'ok', text: analis, id: results.insertId});
+  });
+
+});
+
+app.use('/getText', bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/getText', function(req, res, next) {
+  connection.query('select * from education', function (error, results, fields) {
+    if (error) throw error;
+    console.log(results);
+    res.send({status: 'ok', text: results});
   });
 
 });
