@@ -16,9 +16,19 @@ app.use(express.static(__dirname + '/client'));
 
 
 app.get('/', function (req, res, next) {
-
   res.render('index');
-
+});
+app.get('/work', function (req, res, next) {
+  res.render('work');
+});
+app.get('/vw', function (req, res, next) {
+  res.render('vw');
+});
+app.get('/2048', function (req, res, next) {
+  res.render('2048');
+});
+app.get('/bird', function (req, res, next) {
+  res.render('bird');
 });
 
 var mysql      = require('mysql');
@@ -45,6 +55,19 @@ app.post('/text', function(req, res, next) {
     if (error) throw error;
     console.log(results.insertId);
     res.send({status: 'ok', text: analis, id: results.insertId});
+  });
+
+});
+
+app.use('/getText', bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/getText', function(req, res, next) {
+  connection.query('select * from education', function (error, results, fields) {
+    if (error) throw error;
+    console.log(results);
+    res.send({status: 'ok', text: results});
   });
 
 });
