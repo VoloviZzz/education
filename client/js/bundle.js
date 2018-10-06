@@ -503,7 +503,7 @@ var gp = {
 					if(mobile){
 						txt = ['tap to','jump'];
 					}else{
-						txt = ['up to','jump'];
+						txt = ['tap to','jump'];
 					}
 
 					globalAlpha = 1;
@@ -521,7 +521,7 @@ var gp = {
 					if(mobile){
 						txt = ['tap to','shoot'];
 					}else{
-						txt = ['space to','shoot'];
+						txt = ['tap to','shoot'];
 					}
 
 					globalAlpha = 1;
@@ -591,7 +591,7 @@ var gp = {
 				// Menu
 				drawImage(logo,rnd((P.w - logo.width) / 2),rnd(200));
 
-				var t = mobile ? 'Tap to play' : 'Space to play';
+				var t = mobile ? 'Tap to play' : 'Tap to play';
 				if(Date.now() % 1000 < 500){
 					dt(ctx,'black',t,P.w / 2 + P.maskSize / 2 + P.maskSize,rnd(400) + P.maskSize,28,36,'center');
 					dt(ctx,'white',t,P.w / 2 + P.maskSize / 2,rnd(400),28,36,'center');
@@ -627,7 +627,7 @@ var gp = {
 				dt(ctx,'white','Best  ',rnd(550),rnd(280),0,0,'right');
 				dt(ctx,'white',gp.best,rnd(550),rnd(280),0,0,'left');
 
-				var t = mobile ? 'Tap to play again' : 'Space to play again';
+				var t = mobile ? 'Tap to play again' : 'Tap to play again';
 				if(Date.now() % 1000 < 500){
 					dt(ctx,'white',t,P.w / 2 + P.maskSize / 2,rnd(400),28,36,'center');
 				}
@@ -851,6 +851,7 @@ var gp = {
 			gp.got = 0;
 
 			gp.best = Math.max(gp.best,gp.score);
+      // localStorage.setItem('best', gp.best);
 			try{
 				localStorage.setItem('best',gp.best);
 			}catch(e){}

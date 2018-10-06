@@ -5,6 +5,7 @@
 
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,minimal-ui" />
 
+		<script src="js/jquery-3.2.1.min.js"></script>
 		<script src="js/bundle.js"></script>
 
 		<style>
@@ -28,3 +29,8 @@
 		</div>
 	</body>
 </html>
+<script>
+if (localStorage.getItem('best') == null) {
+	localStorage.setItem('best', '0');
+}
+</script>

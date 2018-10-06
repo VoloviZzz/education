@@ -3,15 +3,10 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color:#000;	
 }
 
-body{
-background-color:#111;	
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
+body{background-color: #000;display: flex;align-items: center;justify-content: center;overflow: hidden;}
 
 canvas{
 	flex-shrink: 0;

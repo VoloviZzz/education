@@ -117,15 +117,15 @@ class Entite {
 		}
 		// controles
 		if(!this.mort){
-		if(this.monde.touches[32] && !this.presse){
-			this.monde.sons.saut.url.play();
-			this.monde.effets.push(new Effet(this.monde, this.pos.x, this.pos.y, this.monde.ressources.effets,1));
-			this.presse = true;
-			this.vel.y = -2;
-		}
-		if(!this.monde.touches[32]){
-			this.presse = false;
-		}
+			if(this.monde.touches[32] && !this.presse){
+				this.monde.sons.saut.url.play();
+				this.monde.effets.push(new Effet(this.monde, this.pos.x, this.pos.y, this.monde.ressources.effets,1));
+				this.presse = true;
+				this.vel.y = -2;
+			}
+			if(!this.monde.touches[32]){
+				this.presse = false;
+			}
 		}
 	}
 	dessiner() {
@@ -270,7 +270,7 @@ class Monde {
 	chargement() {
 		this.prop.compte += 1;
 		if (this.prop.compte === this.prop.nombreRessources) {
-			console.log('%c les images sont chargées ' + this.prop.nombreRessources + " / " + this.prop.nombreRessources, 'padding:2px; border-left:2px solid green; background: lightgreen; color: #000');
+			// console.log('%c les images sont chargées ' + this.prop.nombreRessources + " / " + this.prop.nombreRessources, 'padding:2px; border-left:2px solid green; background: lightgreen; color: #000');
 			// Fin de chargement
 			this.motif = this.ctx.createPattern(this.ressources.motif.img,"repeat");
 
@@ -643,7 +643,7 @@ class Monde {
 			this.ctx.fillRect(0,0,this.L,this.H);
 			this.ctx.globalAlpha = 1;
 			this.ecrire("Best Score : " + this.meilleurScore, this.L / 2, 4);
-			this.ecrire("[spacebar] to jump", this.L / 2, this.H/2);
+			this.ecrire("tap to jump", this.L / 2, this.H/2);
 				break;
 			case "start":
 				this.initialiser();
@@ -660,18 +660,18 @@ class Monde {
        zoom:4,
 
       stockSon:[
-       {url:"http://www.noiseforfun.com/waves/interface-and-media/NFF-select-04.wav",nom:"saut"},
-       {url:"http://www.noiseforfun.com/waves/interface-and-media/NFF-menu-04-b.wav",nom:"bonus"},
-       {url:"http://www.noiseforfun.com/waves/interface-and-media/NFF-lose.wav",nom:"defaite"},
+       {url:"music/NFF-select-04.wav",nom:"saut"},
+       {url:"music/NFF-menu-04-b.wav",nom:"bonus"},
+       {url:"music/NFF-lose.wav",nom:"defaite"},
         ],
 
        stockImages: [
-       {img:"https://image.ibb.co/by5TQQ/font.png",nom:"pixelFont"},
-       {img:"https://image.ibb.co/kiYF5Q/oiseau.png",nom:"oiseau",sep:6,ligne:4,allure:0.6},
-       {img:"https://image.ibb.co/mvORC5/effets.png",nom:"effets",sep:7,ligne:3,allure:0.6},
-       {img:"https://image.ibb.co/hCPoQQ/feuille.png",nom:"feuille"},
-       {img:"https://image.ibb.co/dojBek/piece.png",nom:"piece",sep:6},
-       {img:"https://image.ibb.co/gU7a5Q/motif.png",nom:"motif"},
+       {img:"img/font.png",nom:"pixelFont"},
+       {img:"img/oiseau.png",nom:"oiseau",sep:6,ligne:4,allure:0.6},
+       {img:"img/effets.png",nom:"effets",sep:7,ligne:3,allure:0.6},
+       {img:"img/feuille.png",nom:"feuille"},
+       {img:"img/piece.png",nom:"piece",sep:6},
+       {img:"img/motif.png",nom:"motif"},
            ],
 
        clefs:[
@@ -687,28 +687,46 @@ class Monde {
     }
 
 let niveaux = [
-{
-nom:"lvl1",
-geometrie:[
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0],
-[0,0,0,1,3,3,3,3,3,3,3,3,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
-[0,0,0,1,4,4,4,4,4,4,4,4,1,0,0,0],
-[0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-]
-},
+	{
+	nom:"lvl1",
+		geometrie:[
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0],
+			[0,0,0,1,3,3,3,3,3,3,3,3,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+			[0,0,0,1,4,4,4,4,4,4,4,4,1,0,0,0],
+			[0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		]
+	},
 ];
 
 
 		let demo = new Monde(parametres,niveaux);
+
+demo.phase("start");
+		$(document).on('touchstart', function () {
+
+
+				if(!demo.oiseau.mort){
+					if(!demo.oiseau.presse){
+						demo.oiseau.monde.sons.saut.url.play();
+						demo.oiseau.monde.effets.push(new Effet(demo.oiseau.monde, demo.oiseau.pos.x, demo.oiseau.pos.y, demo.oiseau.monde.ressources.effets,1));
+						demo.oiseau.presse = true;
+						demo.oiseau.vel.y = -2;
+					}
+				}else {
+					demo.phase("start");
+				}
+
+
+		})
