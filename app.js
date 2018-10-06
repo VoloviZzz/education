@@ -16,15 +16,25 @@ app.use(express.static(__dirname + '/client'));
 
 
 app.get('/', function (req, res, next) {
-
   res.render('index');
-
+});
+app.get('/work', function (req, res, next) {
+  res.render('work');
+});
+app.get('/vw', function (req, res, next) {
+  res.render('vw');
+});
+app.get('/2048', function (req, res, next) {
+  res.render('2048');
+});
+app.get('/bird', function (req, res, next) {
+  res.render('bird');
 });
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
+  user     : 'app',
   password : '1234567',
   database : 'elmsoftware'
 });
