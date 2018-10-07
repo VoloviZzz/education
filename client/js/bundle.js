@@ -2739,7 +2739,7 @@ var audio = {
 		}
 	},
 	play : function(sid){
-		if(!mobile){
+		if(mobile){
 			var s = audio.map[sid];
 
 			// Random sound "tone"
@@ -2753,3 +2753,69 @@ var audio = {
 		}
 	}
 };
+
+
+
+
+
+
+
+var sounds = new WebAudiox.GameSounds();
+var star0;
+var star;
+var star2;
+var swipe;
+var error;
+var tap;
+sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_04_02.mp3', function(soundClip){
+   star0 = soundClip;
+ });
+sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_01.wav', function(soundClip){
+   star = soundClip;
+   if (localStorage.getItem("sound") == null) {
+     localStorage.setItem("sound", 'true');
+   }
+   if (localStorage.getItem("sound") == 'true') {
+     $('.song i').removeClass();
+     $('.song i').addClass('fa');
+   	$('.song i').addClass('fa-volume-up');
+   	star.gameSounds.lineOut.volume  = 1;
+   }else {
+     $('.song i').removeClass();
+     $('.song i').addClass('fa');
+   	$('.song i').addClass('fa-volume-off');
+   	star.gameSounds.lineOut.volume  = 0.0;
+   }
+ });
+sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_02.wav', function(soundClip){
+  star2 = soundClip;
+});
+sounds.createClip().load('music/interface_Swish_Swish_Swish_05.wav', function(soundClip){
+   swipe = soundClip;
+ });
+ sounds.createClip().load('music/interface_Music_Negative_Digital_03.wav', function(soundClip){
+    error = soundClip;
+  });
+  sounds.createClip().load('music/interface_Extra_Voice_Voice_01.wav', function(soundClip){
+     tap = soundClip;
+   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------
