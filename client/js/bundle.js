@@ -2739,18 +2739,37 @@ var audio = {
 		}
 	},
 	play : function(sid){
-		if(mobile){
-			var s = audio.map[sid];
+    if (sid == 'jump') {
+      jump.play();
+    }else if (sid == 'menu') {
+      swipe.play();
+    }else if (sid == 'hit') {
+      hit.play();
+    }else if (sid == 'shoot') {
+      hit.play();
+      // star2.play();
+    }else if (sid == 'explosion') {
+      error.play();
+    }else if (sid == 'die') {
+      die.play();
+    }else if (sid == 'powerup') {
+      star.play();
+    }else if (sid == 'malus') {
+      tap.play()
+    }
 
-			// Random sound "tone"
-			var iid = ~~(rd() * s.length);
-
-			// Incrementing the current index
-			s[iid].currentIndex = (s[iid].currentIndex + 1) % s[iid].sounds.length;
-
-			// Playing
-			s[iid].sounds[s[iid].currentIndex].play();
-		}
+		// if(!mobile){
+		// 	var s = audio.map[sid];
+    //
+		// 	// Random sound "tone"
+		// 	var iid = ~~(rd() * s.length);
+    //
+		// 	// Incrementing the current index
+		// 	s[iid].currentIndex = (s[iid].currentIndex + 1) % s[iid].sounds.length;
+    //
+		// 	// Playing
+		// 	s[iid].sounds[s[iid].currentIndex].play();
+		// }
 	}
 };
 
@@ -2761,15 +2780,28 @@ var audio = {
 
 
 var sounds = new WebAudiox.GameSounds();
+var hit;
 var star0;
 var star;
 var star2;
 var swipe;
 var error;
 var tap;
+var jump;
+var die;
+sounds.createClip().load('music/interface_Music_Negative_Digital_05.wav', function(soundClip){
+   die = soundClip;
+ });
+
 sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_04_02.mp3', function(soundClip){
    star0 = soundClip;
  });
+ sounds.createClip().load('music/interface_Extra_Digital_Sci_Fi_01.wav', function(soundClip){
+    hit = soundClip;
+  });
+  sounds.createClip().load('music/interface_Extra_Digital_8_bit_02.wav', function(soundClip){
+     jump = soundClip;
+   });
 sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_01.wav', function(soundClip){
    star = soundClip;
    if (localStorage.getItem("sound") == null) {
