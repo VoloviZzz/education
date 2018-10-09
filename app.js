@@ -22,13 +22,13 @@ app.get('/work', function (req, res, next) {
   res.render('work');
 });
 app.get('/vw', function (req, res, next) {
-  res.render('vw');
+  res.render('gore');
 });
 app.get('/2048', function (req, res, next) {
   res.render('2048');
 });
 app.get('/bird', function (req, res, next) {
-  res.render('gore');
+  res.render('bird');
 });
 
 var mysql      = require('mysql');
