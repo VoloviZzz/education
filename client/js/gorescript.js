@@ -21,9 +21,11 @@ $(document).ready(function () {
   var Rtouch = 1;
   $('body').on('touchstart',function () {
     if (GAME.grid.player.dead == true) {
-      GAME.restartLevel()
+      GAME.restartLevel();
+
     }
     if (GAME.uiManager.winScreen.hasNextMap == true) {
+      alert(test.getGreeting());
       GAME.loadLevel(GAME.uiManager.winScreen.aiManager.script.nextMap);
       $('.interface').show(200);
     }

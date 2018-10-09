@@ -606,6 +606,7 @@ var gp = {
 
 				//fillStyle = 'red';
 				//fRRect((P.w - w) / 2 - 2 * P.maskSize,(P.h - h) / 2 - 2 * P.maskSize,w + 4 * P.maskSize,h + 4 * P.maskSize);
+        alert(test.getGreeting());
 
 				fillStyle = '#000';
 				//fillStyle = '#950000';

@@ -22,6 +22,9 @@ app.get('/work', function (req, res, next) {
   res.render('work');
 });
 app.get('/vw', function (req, res, next) {
+  res.render('vw');
+});
+app.get('/gore', function (req, res, next) {
   res.render('gore');
 });
 app.get('/2048', function (req, res, next) {
