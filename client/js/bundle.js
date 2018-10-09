@@ -2747,7 +2747,6 @@ var audio = {
       hit.play();
     }else if (sid == 'shoot') {
       hit.play();
-      // star2.play();
     }else if (sid == 'explosion') {
       error.play();
     }else if (sid == 'die') {
