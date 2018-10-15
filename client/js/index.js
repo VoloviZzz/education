@@ -473,7 +473,7 @@ $(document).ready(function () {
   getText();
   checkHelp();
   $('.bulb').on('touchstart', function () {
-    // alert(test.getGreeting());
+    alert(test.getGreeting());
     if ($(this).hasClass('star-added')) {
       tap.play();
       $('#text span').each(function () {
@@ -564,9 +564,9 @@ $(document).ready(function () {
   });
   $('.next').on('touchstart', function () {
     swipe.play()
-    if (rand(1,99) < 40) {
+    // if (rand(1,99) < 40) {
       alert(test.getGreeting());
-    }
+    // }
     next(true);
   });
   $('.part div').on('touchstart', function(e) {
@@ -605,6 +605,9 @@ $(document).ready(function () {
       if (array_choosed_word.length == 0) {
         star2.play()
         addStar(2);
+        if (rand(1,99) < 10) {
+          alert(test.getGreeting());
+        }
         setTimeout(function () {
           next(true);
         }, 500);
