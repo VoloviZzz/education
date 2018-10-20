@@ -1,4 +1,4 @@
-var procent_resolution = 75;
+var procent_resolution = 100;
 $(document).ready(function () {
   $('.start').on('touchstart',function () {
     GAME.newGame();
