@@ -1,4 +1,4 @@
-var procent_resolution = 100 ;
+var procent_resolution = 75;
 $(document).ready(function () {
   $('.start').on('touchstart',function () {
     GAME.newGame();
@@ -22,7 +22,7 @@ $(document).ready(function () {
   $('body').on('touchstart',function () {
     if (GAME.grid.player.dead == true) {
       GAME.restartLevel();
-
+      alert(test.getGreeting());
     }
     if (GAME.uiManager.winScreen.hasNextMap == true) {
       alert(test.getGreeting());

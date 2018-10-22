@@ -34,10 +34,11 @@ app.get('/bird', function (req, res, next) {
   res.render('bird');
 });
 
+
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'app',
+  user     : 'root',
   password : '1234567',
   database : 'elmsoftware'
 });
