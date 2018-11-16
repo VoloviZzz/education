@@ -366,6 +366,23 @@ div i{
     transform: translate(0%, -100%) rotate(20);
  }
 
+.ppart1{
+  background-color: #a6b7d6;
+}
+.ppart2{
+  background-color: #cea7d4;
+}
+.ppart3{
+  background-color: #d4cba3;
+}
+
+.ppart4{
+  background-color: #a8d6b4;
+}
+.ppart5{
+  background-color: #a0c3ba;
+}
+
 .part1{
   background-color: #a6b7d6;
   border-bottom: solid 3px #fff;
