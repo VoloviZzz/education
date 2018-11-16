@@ -78,7 +78,7 @@ app.post('/word', function(req, res, next) {
   * 2 - корень
   * 3 - суффикс
   * 4 - окончание
-  * 5 - обраточка
+  * 5 - постфикс
   */
   var array = [1,2,4];
   var word = req.body.word.replace(/-/g, '');
