@@ -721,7 +721,7 @@ $(document).ready(function () {
   getWords();
   checkHelp();
   $('.bulb').on('touchstart', function () {
-    alert(test.getGreeting());
+    alert(test.getGreeting(''));
       if ($(this).hasClass('star-added')) {
         tap.play();
         // if (mode == 1) {
@@ -955,7 +955,7 @@ $(document).ready(function () {
   $('.next').on('touchstart', function () {
     swipe2.play()
     if (rand(1,99) < 75) {
-      alert(test.getGreeting());
+      alert(test.getGreeting(''));
     }
     if (mode == 1) {
       next(true);
@@ -1025,7 +1025,7 @@ $(document).ready(function () {
         star2.play()
         addStar(2);
         if (rand(1,99) < 10) {
-          alert(test.getGreeting());
+          alert(test.getGreeting(''));
         }
         setTimeout(function () {
           next(true);
