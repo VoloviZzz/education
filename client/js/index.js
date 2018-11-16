@@ -58,8 +58,9 @@ var height = window.innerHeight;
 var textSize = 0;
 var textCenter = 0;
 var letters = [];
-var prompt = 'Разбор на члены предложения'.split('');
-// var prompt = ['s', 't', 'a', 'r', 't', ' ', 't', 'y', 'p', 'i', 'n', 'g'];
+// var prompt_ = 'Разбор на члены предложения'.split('');
+var prompt_ = 'Разбирайка'.split('');
+// var prompt_ = ['s', 't', 'a', 'r', 't', ' ', 't', 'y', 'p', 'i', 'n', 'g'];
 var runPrompt = true;
 
 var resizePage = function resizePage() {
@@ -182,8 +183,6 @@ var addLetters = function addLetters(value) {
 
 var animateLetterOut = function animateLetterOut(letter, i) {
   TweenLite.to(letter.onScreen, 0.0, { scale: 0, opacity: 0, ease: Power2.easeIn, onComplete: function onComplete() {
-      // console.log('removing');
-      // console.log(letter);
       offscreenText.removeChild(letter.offScreen);
       text.removeChild(letter.onScreen);
       positionLetters();
@@ -217,8 +216,8 @@ var keyup = function keyup(e) {
 
 var addPrompt = function addPrompt(i) {
   setTimeout(function () {
-    if (runPrompt && prompt[i]) {
-      input.value = input.value + prompt[i];
+    if (runPrompt && prompt_[i]) {
+      input.value = input.value + prompt_[i];
       onInputChange();
       addPrompt(i + 1);
     }else {
@@ -226,11 +225,25 @@ var addPrompt = function addPrompt(i) {
     }
   }, 150);
 };
+var addPromptFastForWord = function addPromptFastForWord(i) {
+  setTimeout(function () {
+    star0.play();
+    if (runPrompt && prompt_[i]) {
+      input.value = input.value + prompt_[i];
+      onInputChange();
+      addPromptFastForWord(i + 1);
+    }else {
+      startGame(true);
+      analisLitersToWord();
+      eventOnLit();
+    }
+  }, 50);
+};
 var addPromptFast = function addPromptFast(i) {
   setTimeout(function () {
     star0.play();
-    if (runPrompt && prompt[i]) {
-      input.value = input.value + prompt[i];
+    if (runPrompt && prompt_[i]) {
+      input.value = input.value + prompt_[i];
       onInputChange();
       addPromptFast(i + 1);
     }else {
@@ -239,24 +252,6 @@ var addPromptFast = function addPromptFast(i) {
     }
   }, 50);
 };
-function hideStart() {
-  swipe.play();
-
-  $('.start').animate({
-    bottom: '-=50%'
-  }, 300);
-  $('.stat').animate({
-    top: '-=50%'
-  }, 350);
-  $('.bulb').animate({
-    top: '-=50%'
-  }, 450);
-  $('.song').animate({
-    top: '-=50%'
-  }, 400, function () {
-    wrightText(getId());
-  });
-}
 function showStart() {
   swipe.play();
 
@@ -273,17 +268,26 @@ function showStart() {
     top: '+=50%'
   }, 450);
 }
-function startGame() {
+function startGame(word) {
 swipe.play();
   $('.stars').animate({
     top: '+=50%'
+  }, 250);
+  $('.home').animate({
+    right: '+=50%'
   }, 300);
   $('.next').animate({
     right: '+=50%'
   }, 350);
-  $('.part').animate({
-    bottom: '+=50%'
-  }, 400);
+  if (!word) {
+    $('.part').animate({
+      bottom: '+=50%'
+    }, 400);
+  }else {
+    $('.part_word').animate({
+      bottom: '+=50%'
+    }, 400);
+  }
   $('.stat').animate({
     top: '+=50%'
   }, 450);
@@ -294,22 +298,31 @@ swipe.play();
     top: '+=50%'
   }, 550);
 }
-function hideGame() {
+function hideGame(word) {
   swipe.play();
   $('hr').hide(250, function () {
     $('hr').remove();
   })
   $('.stars').animate({
     top: '-=50%'
-  }, 300, function () {
+  }, 250, function () {
     newStars();
   });
+  $('.home').animate({
+    right: '-=50%'
+  }, 300);
   $('.next').animate({
     right: '-=50%'
   }, 350);
-  $('.part').animate({
-    bottom: '-=50%'
-  }, 400);
+  if (word) {
+    $('.part_word').animate({
+      bottom: '-=50%'
+    }, 400);
+  }else {
+    $('.part').animate({
+      bottom: '-=50%'
+    }, 400);
+  }
   $('.stat').animate({
     top: '-=50%'
   }, 450);
@@ -319,27 +332,42 @@ function hideGame() {
   $('.bulb').animate({
     top: '-=50%'
   }, 550, function () {
-    wrightText(getId());
+    if (word) {
+      $('.pristavka').hide(300);
+      $('.koren').hide(300);
+      $('.okonchanie').hide(300);
+      wrightWord(getId(true));
+    }else {
+      wrightText(getId());
+    }
   });
 }
-
+function wrightWord(text) {
+  text_now = array_word[text];
+  input.value = '';
+  text = ' '+text_now.word;
+  prompt_ = text.split('');
+  addPromptFastForWord(0);
+}
 function wrightText(text) {
-  console.log(text);
-  console.log(array_text[text]);
   text_now = array_text[text];
   input.value = '';
   text = ' '+text_now.text;
-  console.log(text);
-  prompt = text.split('');
+  prompt_ = text.split('');
   addPromptFast(0);
 }
 
-function getId() {
-  var mayId = rand(0, array_text.length - 1);
+function getId(word) {
+  if (word) {
+    var array = array_word;
+  }else {
+    var array = array_text;
+  }
+  var mayId = rand(0, array.length - 1);
   var iteraite = 0;
   JSON.parse(localStorage.getItem('ids')).forEach(function (val) {
     if (mayId == val) {
-      mayId = rand(0, array_text.length - 1);
+      mayId = rand(0, array.length - 1);
       iteraite++;
     }
   });
@@ -349,14 +377,7 @@ function getId() {
 
   return mayId
 }
-
-function rand(min, max){
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function next(hide) {
-  if (hide) {
-    console.log(text_now.text);
+function next_word() {
     var count_stars_on_this_words = 0;
     $('.stars div i').each(function () {
       if ($(this).hasClass('fa-star') == true) {
@@ -367,6 +388,30 @@ function next(hide) {
     checkHelp();
     var template_array_words = JSON.parse(localStorage.getItem('words'));
     template_array_words.push({
+      mode: 'morfiy',
+      words: text_now.word,
+      analis: text_now.analis,
+      count_stars_on_this_words: count_stars_on_this_words,
+      error_counts: error_counts
+    });
+    localStorage.setItem('words', JSON.stringify(template_array_words));
+    error_counts = 0;
+    hideGame(true);
+}
+
+function next(hide) {
+  if (hide) {
+    var count_stars_on_this_words = 0;
+    $('.stars div i').each(function () {
+      if ($(this).hasClass('fa-star') == true) {
+        count_stars_on_this_words++;
+      }
+    });
+    localStorage.setItem('score', Number(localStorage.getItem('score'))+ 1);
+    checkHelp();
+    var template_array_words = JSON.parse(localStorage.getItem('words'));
+    template_array_words.push({
+      mode: 'sintacsisi',
       words: text_now.text,
       analis: text_now.analis,
       count_stars_on_this_words: count_stars_on_this_words,
@@ -381,11 +426,20 @@ function next(hide) {
   }
 }
 
+function getWords() {
+  $.ajax({
+    type: "POST",
+    url: "/getWords",
+    success: function(data){
+          array_word = data.text;
+        }
+    });
+}
+
 function getText() {
   $.ajax({
     type: "POST",
     url: "/getText",
-    // data: {},
     success: function(data){
           array_text = data.text;
         }
@@ -399,7 +453,31 @@ function fill_word(part, color) {
       }
     });
 }
-
+function analisLitersToWord() {
+  array_choosed_word = JSON.parse(text_now.analis);
+  var array_morfem = text_now.morf_word.split('-');
+  array_choosed_word.forEach(function (elem, index) {
+    morfems_now2.push({
+        lit: array_morfem[index],
+        analised: false,
+        analis: elem
+      });
+    array_morfem[index].split('').forEach(lit => {
+      morfems_now.push({
+          lit: lit,
+          analis: elem
+        });
+    });
+  });
+  var num = -1;
+  $('#text span').each(function () {
+    if ($(this).text() == ' ') {
+    }else {
+      this.dataset.part = morfems_now[num].analis;
+    }
+    num++;
+  });
+}
 function analisLiters() {
   array_choosed_word = JSON.parse(text_now.analis);
   JSON.parse(text_now.analis).forEach(function (part, index) {
@@ -456,9 +534,178 @@ if (localStorage.getItem('score') == null) {
 }
 // localStorage.setItem('words', '[]');
 // localStorage.setItem('ids', '[0]');
+function hideStart(no_start) {
+  swipe2.play();
+      if (!no_start) {
 
+      $('.stat').animate({
+        top: '-=50%'
+      }, 350);
+      $('.bulb').animate({
+        top: '-=50%'
+      }, 450);
+      $('.song').animate({
+        top: '-=50%'
+      }, 400, function () {
+        wrightText(getId());
+      });
+    }else {
+      $('.start').animate({
+        bottom: '-=50%'
+      }, 300, function() {
+        input.value = '';
+        onInputChange();
+      });
+
+    }
+}
+
+function eventOnLit() {
+  var count_fulters = 0;
+  $('.text span').on('touchstart', function (e) {
+    if (selected_morfem != 0) {
+      $(this).addClass('filter');
+      count_fulters = 1;
+      cnock.play();
+      if (selected_morfem == 1) {
+        $('.pristavka').show();
+        $('.pristavka').css('left',  $(this).offset().left+'px');
+        $('.pristavka').css('top',  $(this).offset().top+'px');
+        $('.pristavka').css('width',  $(this).width()+'px');
+      }else if (selected_morfem == 2) {
+        $('.koren').show();
+        $('.koren').css('left',  $(this).offset().left+'px');
+        $('.koren').css('top',  $(this).offset().top+'px');
+        $('.koren').css('width',  $(this).width()+'px');
+      }else if (selected_morfem == 3) {
+        $('.sufics').show();
+        $('.sufics').css('left',  $(this).offset().left-11+'px');
+        $('.sufics').css('top',  $(this).offset().top+'px');
+        $('.sufics').css('width',  $(this).width()+'px');
+        $('.sufics').css('height',  $(this).width()+'px');
+      }else if (selected_morfem == 4) {
+        $('.okonchanie').show();
+        $('.okonchanie').css('left',  $(this).offset().left+'px');
+        $('.okonchanie').css('top',  $(this).offset().top+'px');
+        $('.okonchanie').css('width',  $(this).width()+'px');
+      }else if (selected_morfem == 5) {
+        $('.obratochka').show();
+        $('.obratochka').css('left',  $(this).offset().left+$(this).width()+7+'px');
+        $('.obratochka').css('top',  $(this).offset().top+'px');
+        $('.obratochka').css('width',  $(this).width()+'px');
+        $('.obratochka').css('transform', 'translate(-100%,0%)');
+      }
+    }
+  });
+
+  $('.text span').on('touchmove', function (e) {
+    if (selected_morfem != 0) {
+      var choosed_lit = document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+      if ($(choosed_lit).data('part')) {
+        $(choosed_lit).addClass('filter');
+        if (count_fulters != $('.filter').length) {
+          cnock.play();
+        }
+        count_fulters = $('.filter').length
+        if (selected_morfem == 1) {
+          $('.pristavka').css('width',  ($(this).width() * $('.filter').length)+'px');
+        }else if (selected_morfem == 2) {
+          $('.koren').css('width', ($(this).width() * $('.filter').length)+'px');
+        }else if (selected_morfem == 3) {
+          $('.sufics').css('width', ($(this).width() * $('.filter').length)+'px');
+          $('.sufics').css('height',  ($(this).width() * $('.filter').length)+'px');
+          $('.sufics').css('left',  $(this).offset().left-30+'px');
+        }else if (selected_morfem == 4) {
+          $('.okonchanie').css('width', ($(this).width() * $('.filter').length)+'px');
+        }else if (selected_morfem == 5) {
+          $('.obratochka').css('width', ($(this).width() * $('.filter').length)+'px');
+        }
+      }
+    }
+  });
+
+  $('.text span').on('touchend', function (e) {
+    if (selected_morfem != 0) {
+      // if (selected_morfem == 1) {
+        var morfem = '';
+        $('.filter').each(function () {
+          morfem += $(this).text();
+        });
+        if (morfem == chack_morfem(selected_morfem)) {
+          //success
+          var star_two = false;
+          var end_game = 0;
+          morfems_now2.forEach(elem => {
+            if (elem.lit == morfem) {
+              elem.analised = true;
+            }
+            if (elem.analised == true) {
+              end_game++;
+            }
+          });
+          if (end_game != morfems_now2.length) {
+            star.play();
+            if (selected_morfem != 2) {
+              addStar(0);
+            }else if (selected_morfem == 2) {
+              addStar(1);
+            }
+          }else {
+            star2.play();
+            addStar(0);
+            addStar(1);
+            addStar(2);
+            next_word();
+          }
+        }else {
+          //error
+          error_counts++;
+          if (selected_morfem == 1) {
+            $('.pristavka').hide();
+          }else if (selected_morfem == 2) {
+            $('.koren').hide();
+          }else if (selected_morfem == 3) {
+            $('.sufics').hide();
+          }else if (selected_morfem == 4) {
+            $('.okonchanie').hide();
+          }else if (selected_morfem == 5) {
+            $('.obratochka').hide();
+          }
+          error.play();
+          console.log('error');
+        }
+      // }
+      $('.text span').each(function () {
+        $(this).removeClass('filter');
+      })
+    }
+  });
+
+  $('.text span').on('touchleave', function (e) {
+    if (selected_morfem != 0) {
+      $('.text span').each(function () {
+        $(this).removeClass('filter');
+      })
+    }
+  });
+}
+
+function chack_morfem(anal) {
+  var forReturn = '';
+  morfems_now2.forEach(elem => {
+    if (elem.analis == anal) {
+      forReturn = elem.lit;
+    }
+  });
+return forReturn;
+}
+var mode = 0;
 var array_text = [];
+var array_word = [];
 var text_now = '';
+var morfems_now = [];
+var morfems_now2 = [];
+var selected_morfem = 0;
 var error_counts = 0;
 var part_block;
 var array_choosed_word = [];
@@ -471,38 +718,152 @@ $(document).ready(function () {
   input.value = '';
   addPrompt(0);
   getText();
+  getWords();
   checkHelp();
   $('.bulb').on('touchstart', function () {
-    alert(test.getGreeting());
-    if ($(this).hasClass('star-added')) {
-      tap.play();
-      $('#text span').each(function () {
-        console.log($(this).data('part'));
-        if ($(this).data('part') == '1') {
-          $(this).css('background-color', '#93a3bf');
-        }else if ($(this).data('part') == '2') {
-          $(this).css('background-color', '#b693bb');
-        }else if ($(this).data('part') == '3') {
-          $(this).css('background-color', '#9dbdb5');
-        }else if ($(this).data('part') == '4') {
-          $(this).css('background-color', '#bdb590');
-        }else if ($(this).data('part') == '5') {
-          $(this).css('background-color', '#98c1a3');
-        }
-      });
-      localStorage.setItem('score', Number(localStorage.getItem('score'))-10);
-    }else {
-      error.play();
+    // alert(test.getGreeting());
+      if ($(this).hasClass('star-added')) {
+        tap.play();
+        // if (mode == 1) {
+        $('#text span').each(function () {
+          if ($(this).data('part') == '1') {
+            $(this).css('background-color', '#93a3bf90');
+          }else if ($(this).data('part') == '2') {
+            $(this).css('background-color', '#b693bb90');
+          }else if ($(this).data('part') == '3') {
+            $(this).css('background-color', '#9dbdb590');
+          }else if ($(this).data('part') == '4') {
+            $(this).css('background-color', '#bdb59090');
+          }else if ($(this).data('part') == '5') {
+            $(this).css('background-color', '#98c1a390');
+          }
+        });
+        localStorage.setItem('score', Number(localStorage.getItem('score'))-10);
+        // }else {
+        //
+        // }
+      }else {
+        error.play();
+      }
 
-    }
     checkHelp();
+  });
+  $('.competition').on('touchstart', function () {
+    // if (localStorage.getItem('username') == null) {
+    //   var username = prompt("Введите ваш username");
+    //   localStorage.setItem('username', username);
+    // }
+    tap2.play();
+    mode = 1;
+    $('#arrow4').hide();
+    $('#arrow5').hide();
+    $('#arrow6').hide();
+    $('.sint').hide(200);
+    $('.morf').hide(250);
+    $('.sale').hide(300);
+    checkHelp();
+    hideStart();
+    $('.mode-select .sintacs').animate({
+      left: '-50%'
+    },300);
+    $('.mode-select .competition').animate({
+      left: '150%'
+    },300);
+    $('.mode-select .sostav').animate({
+      top: '-50%'
+    },300, function () {
+      $('.mode-select').hide();
+    });
+  });
+  $('.sintacs').on('touchstart', function () {
+    tap2.play()
+    mode = 1;
+    $('#arrow4').hide();
+    $('#arrow5').hide();
+    $('#arrow6').hide();
+    $('.sint').hide(200);
+    $('.morf').hide(250);
+    $('.sale').hide(300);
+    checkHelp();
+    hideStart();
+    $('.mode-select .sintacs').animate({
+      left: '-50%'
+    },300);
+    $('.mode-select .competition').animate({
+      left: '150%'
+    },300);
+    $('.mode-select .sostav').animate({
+      top: '-50%'
+    },300, function () {
+      $('.mode-select').hide();
+    });
+  });
+  $('.sostav').on('touchstart', function () {
+    tap2.play()
+    mode = 2;
+    $('#arrow4').hide();
+    $('#arrow5').hide();
+    $('#arrow6').hide();
+    $('.sint').hide(200);
+    $('.morf').hide(250);
+    $('.sale').hide(300);
+    checkHelp();
+    $('.stat').animate({
+      top: '-=50%'
+    }, 350);
+    $('.bulb').animate({
+      top: '-=50%'
+    }, 450);
+    $('.song').animate({
+      top: '-=50%'
+    }, 400, function () {
+    });
+    $('.mode-select .sintacs').animate({
+      left: '-50%'
+    },300);
+    $('.mode-select .competition').animate({
+      left: '150%'
+    },300);
+    $('.mode-select .sostav').animate({
+      top: '-50%'
+    },300, function () {
+      $('.mode-select').hide();
+      wrightWord(getId(true));
+    });
   });
   $('.start').on('touchstart', function () {
+    $('#arrow4').show();
+    $('.sint').show(300);
+    $('#arrow5').show();
+    $('.morf').show(300);
+    $('#arrow6').show();
+    $('.sale').show(300);
+    $('.mode-select').show(200);
     checkHelp();
     tap.play()
-    hideStart()
+    hideStart(true)
+  });
+  $('.switch label i').on('touchstart', function () {
+    if(parseInt($(this).css('left')) < 10){
+      $(this).animate({
+        left: '63%'
+      }, 100);
+      swipe2.play();
+      $('.string-block .sintacsisi').hide();
+      $('.string-block .morfiy').show();
+      $('.switch span').text('морфемный разбор');
+    }else {
+      $(this).animate({
+        left: '0%'
+      }, 100);
+      swipe.play();
+      $('.switch span').text('синтаксический разбор');
+      $('.string-block .sintacsisi').show();
+      $('.string-block .morfiy').hide();
+    }
   });
   $('.stat').on('touchstart', function () {
+    tap.play();
     checkHelp();
     $('#arrow1 .draw-arrow').addClass('animate');
     $('#arrow2 .draw-arrow').addClass('animate');
@@ -511,36 +872,41 @@ $(document).ready(function () {
     var words = JSON.parse(localStorage.getItem('words'));
     var count_errors = 0;
     var mean_count_errors = 0;
-    words.forEach(function (obj) {
-      count_errors += obj.error_counts;
+    if (words.length > 0) {
+      words.forEach(function (obj) {
+        count_errors += obj.error_counts;
+        var text = `
+        <div class="string `+obj.mode+`"><span>`+obj.words+`</span>
+          <div class="stars-stat">`;
+          for (let i = 0; i < obj.count_stars_on_this_words; i++) {
+            text += `<i class="fa fa-star" aria-hidden="true"></i>`;
+          }
+          for (let i = 0; i < 3-obj.count_stars_on_this_words; i++) {
+            text += `<i class="fa fa-star-o" aria-hidden="true"></i>`;
+          }
+          text += `</div>
+          <div class="error-count">`+obj.error_counts+`</div>
+        </div>`;
+        $('.string-block').append(text);
+        $('.count_analised_words span').text(words.length);
+        $('.count_errors span').text(count_errors);
+        $('.mean_count_errors span').text(Number(count_errors/words.length).toFixed(2));
+      });
+    }else {
       var text = `
-      <div class="string"><span>`+obj.words+`</span>
-        <div class="stars-stat">`;
-        for (let i = 0; i < obj.count_stars_on_this_words; i++) {
-          text += `<i class="fa fa-star" aria-hidden="true"></i>`;
-        }
-        for (let i = 0; i < 3-obj.count_stars_on_this_words; i++) {
-          text += `<i class="fa fa-star-o" aria-hidden="true"></i>`;
-        }
-        text += `</div>
-        <div class="error-count">`+obj.error_counts+`</div>
-      </div>`;
+      <div class="string morfiy"><span>пусто</span></div>`;
       $('.string-block').append(text);
-      $('.count_analised_words span').text(words.length);
-      $('.count_errors span').text(count_errors);
-      $('.mean_count_errors span').text(Number(count_errors/words.length).toFixed(2));
-    });
-    tap.play();
-    swipe.play();
+    }
+    swipe2.play();
     $('.statistic').animate({
       top: '0%'
     },250)
   });
   $('.stat-back').on('touchstart', function () {
+    tap.play();
     $('#arrow1 .draw-arrow').removeClass('animate');
     $('#arrow2 .draw-arrow').removeClass('animate');
     $('#arrow3 .draw-arrow').removeClass('animate');
-    tap.play();
     swipe.play();
     $('.statistic').animate({
       top: '-110%'
@@ -562,13 +928,55 @@ $(document).ready(function () {
     	star.gameSounds.lineOut.volume  = 1;
     }
   });
-  $('.next').on('touchstart', function () {
-    swipe.play()
-    // if (rand(1,99) < 40) {
-      alert(test.getGreeting());
-    // }
-    next(true);
+  $('.home').on('touchstart', function () {
+    swipe2.play();
+    $('#text').animate({
+      opacity: 0
+    },500)
+    $('.interface').animate({
+      opacity: 0
+    },500)
+    hideGame()
+    setTimeout(function () {
+      location.reload();
+    }, 500);
   });
+  $('.next').on('touchstart', function () {
+    swipe2.play()
+    if (rand(1,99) < 85) {
+      // alert(test.getGreeting());
+    }
+    if (mode == 1) {
+      next(true);
+    }else {
+      next_word();
+    }
+  });
+
+  $('.part_word div').on('touchstart', function (e) {
+    checkHelp();
+    if (selected_morfem == $(this).data('part')) {
+      tap.play()
+      selected_morfem = '0';
+      $(this).css('box-shadow', 'none');
+    }else {
+      tap.play();
+      if (selected_morfem == 0) {
+        selected_morfem = $(this).data('part');
+        $(this).css('box-shadow', '0 0 10px '+$(this).css('background-color'));
+      }else {
+        $('.part_word div').each(function () {
+          $(this).css('box-shadow', 'none');
+        });
+        selected_morfem = $(this).data('part');
+        $(this).css('box-shadow', '0 0 10px '+$(this).css('background-color'));
+      }
+    }
+  });
+
+
+
+
   $('.part div').on('touchstart', function(e) {
     checkHelp();
     tap.play()
@@ -635,8 +1043,13 @@ var star0;
 var star;
 var star2;
 var swipe;
+var swipe2;
 var error;
+var error1;
+var error2;
 var tap;
+var tap2;
+var cnock;
 sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_04_02.mp3', function(soundClip){
    star0 = soundClip;
  });
@@ -663,21 +1076,47 @@ sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_02.wav', function(so
 sounds.createClip().load('music/interface_Swish_Swish_Swish_05.wav', function(soundClip){
    swipe = soundClip;
  });
- sounds.createClip().load('music/interface_Music_Negative_Digital_03.wav', function(soundClip){
-    error = soundClip;
+ sounds.createClip().load('music/interface_Swish_Swish_Swish_03.wav', function(soundClip){
+    swipe2 = soundClip;
   });
-  sounds.createClip().load('music/interface_Extra_Voice_Voice_01.wav', function(soundClip){
-     tap = soundClip;
-   });
+  sounds.createClip().load('music/interface_Music_Negative_Digital_03.wav', function(soundClip){
+    error0 = soundClip;
+  });
+  sounds.createClip().load('music/interface_Extra_Voice_Voice_05.wav', function(soundClip){
+    error1 = soundClip;
+  });
+  sounds.createClip().load('music/interface_Extra_Voice_Voice_06.wav', function(soundClip){
+    error2 = soundClip;
+  });
+sounds.createClip().load('music/interface_Extra_Voice_Voice_01.wav', function(soundClip){
+   tap = soundClip;
+ });
+ sounds.createClip().load('music/interface_Design_Wood_Complex_07.wav', function(soundClip){
+    tap2 = soundClip;
+  });
+
+sounds.createClip().load('music/interface_Main_Metal_Big_01.wav', function(soundClip){
+  cnock = soundClip;
+});
+
+function rand(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 
+function Error() {
 
+}
 
+Error.prototype.play = function(arguments) {
+  if (rand(1,99) < 50) {
+    error1.play();
+  }else {
+    error2.play();
+  }
+};
 
-
-
-
-
+var error = new Error();
 
 
 

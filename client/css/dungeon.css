@@ -1,0 +1,174 @@
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body{
+/* background-color:#484848; */
+background: url('../img/dungeon/motif.png') 15px 4px repeat;
+background-size: 40px 40px;	
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+canvas{
+	flex-shrink: 0;
+	background-color:#000;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+	}
+.interface{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 100;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -o-crisp-edges;
+	-ms-interpolation-mode: nearest-neighbor;
+}
+
+.start {
+	background-color: #b3eafd;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.start .btn{
+	z-index: 1;
+	position: fixed;
+	width: 100px;
+	height: 100px;
+	top: -50%;
+	left: 50%;
+	animation: btn 1s 1s forwards ease-in-out;
+	transform: translate(-50%, -50%);
+}
+.start .tower{
+	position: fixed;
+	width: 70%;
+	height: auto;
+	bottom: 0%;
+	left: 50%;
+	animation: tower 1s forwards ease-in-out;
+	transform: translate(-50%, -0%);
+}
+
+.start .clouds{
+	position: fixed;
+	width: 70%;
+	height: auto;
+	bottom: 0%;
+	left: 50%;
+	animation: clouds 1s forwards ease-in-out;
+	transform: translate(-50%, -0%);
+}
+@keyframes clouds{
+	0%{
+		bottom: 100%;
+	}
+	100%{
+		bottom: 0%;
+	}
+}
+@keyframes btn{
+	0%{
+		top: -50%;
+	}
+	100%{
+		top: 50%;
+	}
+}
+@keyframes tower{
+	0%{
+		bottom: -100%;
+	}
+	100%{
+		bottom: 0%;
+	}
+}
+
+.control img{
+	position: fixed;
+	width: 50px;
+	height: 50px;
+}
+.left{
+	position: fixed;
+	width: 25%;
+	height: 70%;
+	bottom: 0;
+}
+.right{
+	position: fixed;
+	width: 25%;
+	height: 70%;
+	bottom: 0;
+	left: 25%;
+}
+.left img{
+	position:absolute;
+	bottom: 15px;
+	left: 50%;
+	transform: translate(-50%);
+}
+.right img{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	bottom: 15px;
+}
+.jump img{
+
+	position: absolute;
+	bottom: 15px;
+	left: 50%;
+	transform: translate(-50%);
+}
+.jump{
+	position: fixed;
+	width: 25%;
+	height: 70%;
+	bottom: 0;
+	right: 0;
+}
+
+.pause img{
+	position: fixed;
+	width: 50px;
+	height: 50px;
+}
+
+.pause-cover{
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+.dead-cover{
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+

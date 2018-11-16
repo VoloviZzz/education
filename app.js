@@ -17,6 +17,7 @@ app.use(express.static(__dirname + '/client'));
 
 app.get('/', function (req, res, next) {
   res.render('index');
+  // res.render('dungeon');
 });
 app.get('/work', function (req, res, next) {
   res.render('work');
@@ -33,12 +34,16 @@ app.get('/2048', function (req, res, next) {
 app.get('/bird', function (req, res, next) {
   res.render('bird');
 });
+app.get('/dungeon', function (req, res, next) {
+  res.render('dungeon');
+});
+
 
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'app',
+  user     : 'root',
   password : '1234567',
   database : 'elmsoftware'
 });
@@ -63,6 +68,38 @@ app.post('/text', function(req, res, next) {
 
 });
 
+app.use('/word', bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/word', function(req, res, next) {
+  /*
+  * 1 - приставка
+  * 2 - корень
+  * 3 - суффикс
+  * 4 - окончание
+  * 5 - обраточка
+  */
+  var array = [1,2,4];
+  var word = req.body.word.replace(/-/g, '');
+  var analis = JSON.stringify(array);
+  connection.query('insert into morfems set word = "'+word+'", morf_word = "'+req.body.word+'", analis = \''+analis+'\'', function (error, results, fields) {
+    if (error) throw error;
+    res.send({status: 'ok', text: analis, id: results.insertId});
+  });
+
+});
+
+app.use('/getWords', bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/getWords', function(req, res, next) {
+  connection.query('select * from morfems', function (error, results, fields) {
+    if (error) throw error;
+    res.send({status: 'ok', text: results});
+  });
+});
 app.use('/getText', bodyParser.urlencoded({
     extended: true
 }));
@@ -70,10 +107,8 @@ app.use('/getText', bodyParser.urlencoded({
 app.post('/getText', function(req, res, next) {
   connection.query('select * from education', function (error, results, fields) {
     if (error) throw error;
-    console.log(results);
     res.send({status: 'ok', text: results});
   });
-
 });
 
 app.use('/text2', bodyParser.urlencoded({
@@ -102,6 +137,10 @@ app.post('/email', function(req, res, next) {
 
   res.send({status: 'ok', text: 'req'});
 });
+
+
+
+
 
 
 // connection.end();
