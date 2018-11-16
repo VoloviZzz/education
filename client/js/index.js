@@ -721,7 +721,7 @@ $(document).ready(function () {
   getWords();
   checkHelp();
   $('.bulb').on('touchstart', function () {
-    // alert(test.getGreeting());
+    alert(test.getGreeting());
       if ($(this).hasClass('star-added')) {
         tap.play();
         // if (mode == 1) {
@@ -888,13 +888,24 @@ $(document).ready(function () {
           <div class="error-count">`+obj.error_counts+`</div>
         </div>`;
         $('.string-block').append(text);
-        $('.count_analised_words span').text(words.length);
+        var sintacsisi_count = 0;
+        var morfiy_count = 0;
+        words.forEach(elem => {
+          if (elem.mode == 'sintacsisi') {
+            sintacsisi_count++;
+          }else if (elem.mode == 'morfiy') {
+            morfiy_count++;
+          }
+        });
+        $($('.count_analised_words span')[0]).text(sintacsisi_count);
+        $($('.count_analised_words span')[1]).text(morfiy_count);
         $('.count_errors span').text(count_errors);
         $('.mean_count_errors span').text(Number(count_errors/words.length).toFixed(2));
       });
     }else {
       var text = `
-      <div class="string morfiy"><span>пусто</span></div>`;
+      <div class="string morfiy"><span>пусто</span></div>
+      <div class="string sintacsisi"><span>пусто</span></div>`;
       $('.string-block').append(text);
     }
     swipe2.play();
@@ -943,8 +954,8 @@ $(document).ready(function () {
   });
   $('.next').on('touchstart', function () {
     swipe2.play()
-    if (rand(1,99) < 85) {
-      // alert(test.getGreeting());
+    if (rand(1,99) < 75) {
+      alert(test.getGreeting());
     }
     if (mode == 1) {
       next(true);
