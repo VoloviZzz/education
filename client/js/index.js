@@ -456,6 +456,7 @@ function fill_word(part, color) {
 function analisLitersToWord() {
   array_choosed_word = JSON.parse(text_now.analis);
   var array_morfem = text_now.morf_word.split('-');
+  morfems_now2 = [];
   array_choosed_word.forEach(function (elem, index) {
     morfems_now2.push({
         lit: array_morfem[index],
@@ -721,21 +722,25 @@ $(document).ready(function () {
   getWords();
   checkHelp();
   $('.bulb').on('touchstart', function () {
-    alert(test.getGreeting(''));
       if ($(this).hasClass('star-added')) {
         tap.play();
         // if (mode == 1) {
         $('#text span').each(function () {
           if ($(this).data('part') == '1') {
-            $(this).css('background-color', '#93a3bf90');
+            $(this).css('background-color', '#93a3bf');
+            $(this).css('opacity', '0.5');
           }else if ($(this).data('part') == '2') {
-            $(this).css('background-color', '#b693bb90');
+            $(this).css('background-color', '#b693bb');
+            $(this).css('opacity', '0.5');
           }else if ($(this).data('part') == '3') {
-            $(this).css('background-color', '#9dbdb590');
+            $(this).css('background-color', '#9dbdb5');
+            $(this).css('opacity', '0.5');
           }else if ($(this).data('part') == '4') {
-            $(this).css('background-color', '#bdb59090');
+            $(this).css('background-color', '#bdb590');
+            $(this).css('opacity', '0.5');
           }else if ($(this).data('part') == '5') {
-            $(this).css('background-color', '#98c1a390');
+            $(this).css('background-color', '#98c1a3');
+            $(this).css('opacity', '0.5');
           }
         });
         localStorage.setItem('score', Number(localStorage.getItem('score'))-10);
@@ -747,6 +752,8 @@ $(document).ready(function () {
       }
 
     checkHelp();
+    alert(test.getGreeting(''));
+
   });
   $('.competition').on('touchstart', function () {
     // if (localStorage.getItem('username') == null) {
