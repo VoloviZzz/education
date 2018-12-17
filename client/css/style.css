@@ -240,7 +240,7 @@ svg {
 }
 .stars div{
   position: relative;
-  display: inline-grid;
+  display: unset;
 }
 
 .interface .part_word{
