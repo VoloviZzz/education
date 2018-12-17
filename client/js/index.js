@@ -228,7 +228,7 @@ var addPrompt = function addPrompt(i) {
 
 var addPromptFastForWord_toAdd = function addPromptFastForWord_toAdd(i) {
   setTimeout(function () {
-    // star0.play();
+    star0.play();
     if (runPrompt && prompt_[i]) {
       input.value = input.value + prompt_[i];
       onInputChange();
@@ -242,7 +242,7 @@ var addPromptFastForWord_toAdd = function addPromptFastForWord_toAdd(i) {
 };
 var addPromptFastForWord = function addPromptFastForWord(i) {
   setTimeout(function () {
-    // star0.play();
+    star0.play();
     if (runPrompt && prompt_[i]) {
       input.value = input.value + prompt_[i];
       onInputChange();
@@ -256,7 +256,7 @@ var addPromptFastForWord = function addPromptFastForWord(i) {
 };
 var addPromptFast = function addPromptFast(i) {
   setTimeout(function () {
-    // star0.play();
+    star0.play();
     if (runPrompt && prompt_[i]) {
       input.value = input.value + prompt_[i];
       onInputChange();
@@ -268,7 +268,7 @@ var addPromptFast = function addPromptFast(i) {
   }, 50);
 };
 function showStart() {
-  // swipe.play();
+  swipe.play();
 
   $('.start').animate({
     bottom: '+=50%'
@@ -315,7 +315,7 @@ function setTimer(sec) {
   }
 }
 function startGame(word) {
-// swipe.play();
+swipe.play();
 
   $('.stars').animate({
     top: '10%'
@@ -353,7 +353,7 @@ function startGame(word) {
   }, 550);
 }
 function hideGame(word) {
-  // swipe.play();
+  swipe.play();
   $('hr').hide(250, function () {
     $('hr').remove();
   })
@@ -646,7 +646,7 @@ if (localStorage.getItem('time_star_mode') == null) {
 // localStorage.setItem('words', '[]');
 // localStorage.setItem('ids', '[0]');
 function hideStart(no_start) {
-  // swipe2.play();
+  swipe2.play();
       if (!no_start) {
 
       $('.stat').animate({
@@ -677,7 +677,7 @@ function eventOnLit() {
     if (selected_morfem != 0) {
       $(this).addClass('filter');
       count_fulters = 1;
-      // cnock.play();
+      cnock.play();
       if (selected_morfem == 1) {
         $('.pristavka').show();
         $('.pristavka').css('left',  $(this).offset().left+'px');
@@ -721,7 +721,7 @@ function eventOnLit() {
       if ($(choosed_lit).data('part')) {
         $(choosed_lit).addClass('filter');
         if (count_fulters != $('.filter').length) {
-          // cnock.play();
+          cnock.play();
         }
         count_fulters = $('.filter').length
         if (selected_morfem == 1) {
@@ -762,14 +762,14 @@ function eventOnLit() {
               }
             });
             if (end_game != morfems_now2.length) {
-              // star.play();
+              star.play();
               if (selected_morfem != 2) {
                 addStar(0);
               }else if (selected_morfem == 2) {
                 addStar(1);
               }
             }else {
-              // star2.play();
+              star2.play();
               addStar(0);
               addStar(1);
               addStar(2);
@@ -789,7 +789,7 @@ function eventOnLit() {
             }else if (selected_morfem == 5) {
               $('.obratochka').hide();
             }
-            // error.play();
+            error.play();
             console.log('error');
           }
         // }
@@ -806,7 +806,7 @@ function eventOnLit() {
             this.dataset.part = selected_morfem;
             this.dataset.edited = 'edited';
           });
-          // star.play();
+          star.play();
           // $('.pristavka').hide();
           // $('.koren').hide();
           // $('.sufics').hide();
@@ -862,7 +862,7 @@ $(document).ready(function () {
   $('.bulb').on('touchstart', function () {
     if (mode != 0) {
       if ($(this).hasClass('star-added')) {
-        // tap.play();
+        tap.play();
         $('#text span').each(function () {
           if ($(this).data('part') == '1') {
             $(this).css('background-color', '#93a3bf');
@@ -887,7 +887,7 @@ $(document).ready(function () {
         localStorage.setItem('score', Number(localStorage.getItem('score'))-10);
       }else {
         Alert.error();
-        // error.play();
+        error.play();
       }
     }
     checkHelp();
@@ -945,7 +945,7 @@ $(document).ready(function () {
       $('.star3 i').addClass('fa-paint-brush');
 
     $('.star1').on('touchstart', function () {
-      // tap2.play();
+      tap2.play();
       $.ajax({
         type: "POST",
         url: "/removeWord",
@@ -957,11 +957,11 @@ $(document).ready(function () {
         });
     });
     $('.star2').on('touchstart', function () {
-      // tap2.play()
+      tap2.play()
       next_word_toAdd();
     });
     $('.star3').on('touchstart', function () {
-      // tap2.play()
+      tap2.play()
       $('.pristavka').hide();
       $('.koren').hide();
       $('.sufics').hide();
@@ -969,7 +969,7 @@ $(document).ready(function () {
       $('.obratochka').hide();
     });
 
-    // tap2.play()
+    tap2.play()
     mode = 3;
     $('#arrow4').hide();
     $('#arrow5').hide();
@@ -1005,7 +1005,7 @@ $(document).ready(function () {
     });
   });
   $('.sintacs').on('touchstart', function () {
-    // tap2.play()
+    tap2.play()
     mode = 1;
     $('#arrow4').hide();
     $('#arrow5').hide();
@@ -1031,7 +1031,7 @@ $(document).ready(function () {
     });
   });
   $('.sostav').on('touchstart', function () {
-    // tap2.play()
+    tap2.play()
     mode = 2;
     $('#arrow4').hide();
     $('#arrow5').hide();
@@ -1080,7 +1080,7 @@ $(document).ready(function () {
       },300);
     });
     checkHelp();
-    // tap.play()
+    tap.play()
     hideStart(true);
     setTimeout(function () {
       $('.start').remove();
@@ -1096,7 +1096,7 @@ $(document).ready(function () {
       $(this).animate({
         left: '63%'
       }, 100);
-      // swipe2.play();
+      swipe2.play();
       $('.time').toggle(200);
       $('.stay').toggle(200);
       $('.switch_mode span').text('На Время');
@@ -1109,7 +1109,7 @@ $(document).ready(function () {
       $(this).animate({
         left: '0%'
       }, 100);
-      // swipe.play();
+      swipe.play();
       $('.stay').toggle(200);
       $('.time').toggle(200);
       $('.switch_mode span').text('На Звёзды');
@@ -1120,7 +1120,7 @@ $(document).ready(function () {
       $(this).animate({
         left: '63%'
       }, 100);
-      // swipe2.play();
+      swipe2.play();
       $('.string-block .sintacsisi').hide();
       $('.string-block .morfiy').show();
       $('.switch span').text('морфемный разбор');
@@ -1128,14 +1128,14 @@ $(document).ready(function () {
       $(this).animate({
         left: '0%'
       }, 100);
-      // swipe.play();
+      swipe.play();
       $('.switch span').text('синтаксический разбор');
       $('.string-block .sintacsisi').show();
       $('.string-block .morfiy').hide();
     }
   });
   $('.stat').on('touchstart', function () {
-    // tap.play();
+    tap.play();
     checkHelp();
     $('#arrow1 .draw-arrow').addClass('animate');
     $('#arrow2 .draw-arrow').addClass('animate');
@@ -1180,23 +1180,23 @@ $(document).ready(function () {
       <div class="string sintacsisi"><span>пусто</span></div>`;
       $('.string-block').append(text);
     }
-    // swipe2.play();
+    swipe2.play();
     $('.statistic').animate({
       top: '0%'
     },250)
   });
   $('.stat-back').on('touchstart', function () {
-    // tap.play();
+    tap.play();
     $('#arrow1 .draw-arrow').removeClass('animate');
     $('#arrow2 .draw-arrow').removeClass('animate');
     $('#arrow3 .draw-arrow').removeClass('animate');
-    // swipe.play();
+    swipe.play();
     $('.statistic').animate({
       top: '-110%'
     },250)
   });
   $('.song').on('touchstart',function () {
-    // tap.play();
+    tap.play();
     if (localStorage.getItem("sound") == 'true') {
       localStorage.setItem("sound", 'false');
       $('.song i').removeClass();
@@ -1212,7 +1212,7 @@ $(document).ready(function () {
     }
   });
   $('.home').on('touchstart', function () {
-    // swipe2.play();
+    swipe2.play();
     $('#text').animate({
       opacity: 0
     },500)
@@ -1225,7 +1225,7 @@ $(document).ready(function () {
     }, 500);
   });
   $('.next').on('touchstart', function () {
-    // swipe2.play()
+    swipe2.play()
     if (rand(1,99) < 75) {
       // alert(test.getGreeting(''));
     }
@@ -1296,11 +1296,11 @@ $(document).ready(function () {
   $('.part_word div').on('touchstart', function (e) {
     checkHelp();
     if (selected_morfem == $(this).data('part')) {
-      // tap.play()
+      tap.play()
       selected_morfem = '0';
       $(this).css('box-shadow', 'none');
     }else {
-      // tap.play();
+      tap.play();
       if (selected_morfem == 0) {
         selected_morfem = $(this).data('part');
         $(this).css('box-shadow', '0 0 10px '+$(this).css('background-color'));
@@ -1318,7 +1318,7 @@ $(document).ready(function () {
 
   $('.part div').on('touchstart', function(e) {
     checkHelp();
-    // tap.play()
+    tap.play()
     part_block = $(this);
       $('.interface').css('z-index', '-5');
     $('body').append('<hr style="z-index:50">');
@@ -1339,18 +1339,18 @@ $(document).ready(function () {
     var choosed_lit = document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
     if ($(choosed_lit).data('part') == part_block.data('part')) {
       if ($(choosed_lit).data('part') == 1) {
-        // star.play()
+        star.play()
         addStar(0);
       }
       if ($(choosed_lit).data('part') == 2) {
-        // star.play()
+        star.play()
         addStar(1);
       }
       array_choosed_word = array_choosed_word.filter(function(item) {
           return item != $(choosed_lit).data('part')
       })
       if (array_choosed_word.length == 0) {
-        // star2.play()
+        star2.play()
         addStar(2);
         if (rand(1,99) < 10) {
           alert(test.getGreeting(''));
@@ -1359,12 +1359,12 @@ $(document).ready(function () {
           next(true);
         }, 500);
       }else {
-        // star0.play()
+        star0.play()
       }
       fill_word($(choosed_lit).data('part'), ''+part_block.css('background-color'));
       $($('hr')[$('hr').length-1]).css('z-index', '0');
     }else {
-      // error.play();
+      error.play();
       error_counts++;
       $('hr')[$('hr').length-1].remove()
     }
@@ -1394,87 +1394,87 @@ if (localStorage.getItem('time_star_mode') == 'time') {
   $('.switch_mode label i').addClass('fa-star');
 }
 
-// var sounds = new WebAudiox.GameSounds();
-// var star0;
-// var star;
-// var star2;
-// var swipe;
-// var swipe2;
-// var error;
-// var error1;
-// var error2;
-// var tap;
-// var tap2;
-// var cnock;
-// sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_04_02.mp3', function(soundClip){
-//    star0 = soundClip;
-//  });
-// sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_01.wav', function(soundClip){
-//    star = soundClip;
-//    if (localStorage.getItem("sound") == null) {
-//      localStorage.setItem("sound", 'true');
-//    }
-//    if (localStorage.getItem("sound") == 'true') {
-//      $('.song i').removeClass();
-//      $('.song i').addClass('fa');
-//    	$('.song i').addClass('fa-volume-up');
-//    	star.gameSounds.lineOut.volume  = 1;
-//    }else {
-//      $('.song i').removeClass();
-//      $('.song i').addClass('fa');
-//    	$('.song i').addClass('fa-volume-off');
-//    	star.gameSounds.lineOut.volume  = 0.0;
-//    }
-//  });
-// sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_02.wav', function(soundClip){
-//   star2 = soundClip;
-// });
-// sounds.createClip().load('music/interface_Swish_Swish_Swish_05.wav', function(soundClip){
-//    swipe = soundClip;
-//  });
-//  sounds.createClip().load('music/interface_Swish_Swish_Swish_03.wav', function(soundClip){
-//     swipe2 = soundClip;
-//   });
-//   sounds.createClip().load('music/interface_Music_Negative_Digital_03.wav', function(soundClip){
-//     error0 = soundClip;
-//   });
-//   sounds.createClip().load('music/interface_Extra_Voice_Voice_05.wav', function(soundClip){
-//     error1 = soundClip;
-//   });
-//   sounds.createClip().load('music/interface_Extra_Voice_Voice_06.wav', function(soundClip){
-//     error2 = soundClip;
-//   });
-// sounds.createClip().load('music/interface_Extra_Voice_Voice_01.wav', function(soundClip){
-//    tap = soundClip;
-//  });
-//  sounds.createClip().load('music/interface_Design_Wood_Complex_07.wav', function(soundClip){
-//     tap2 = soundClip;
-//   });
-//
-// sounds.createClip().load('music/interface_Main_Metal_Big_01.wav', function(soundClip){
-//   cnock = soundClip;
-// });
-//
-// function rand(min, max){
-//   return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
-//
-//
-// function Error() {
-//
-// }
-//
-// Error.prototype.play = function(arguments) {
-//   if (rand(1,99) < 50) {
-    // error1.play();
-//   }else {
-    // error2.play();
-//   }
-// };
-//
-// var error = new Error();
-//
-//
+var sounds = new WebAudiox.GameSounds();
+var star0;
+var star;
+var star2;
+var swipe;
+var swipe2;
+var error;
+var error1;
+var error2;
+var tap;
+var tap2;
+var cnock;
+sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_04_02.mp3', function(soundClip){
+   star0 = soundClip;
+ });
+sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_01.wav', function(soundClip){
+   star = soundClip;
+   if (localStorage.getItem("sound") == null) {
+     localStorage.setItem("sound", 'true');
+   }
+   if (localStorage.getItem("sound") == 'true') {
+     $('.song i').removeClass();
+     $('.song i').addClass('fa');
+   	$('.song i').addClass('fa-volume-up');
+   	star.gameSounds.lineOut.volume  = 1;
+   }else {
+     $('.song i').removeClass();
+     $('.song i').addClass('fa');
+   	$('.song i').addClass('fa-volume-off');
+   	star.gameSounds.lineOut.volume  = 0.0;
+   }
+ });
+sounds.createClip().load('music/Puzzle_Stars_Stars_Stars_03_02.wav', function(soundClip){
+  star2 = soundClip;
+});
+sounds.createClip().load('music/interface_Swish_Swish_Swish_05.wav', function(soundClip){
+   swipe = soundClip;
+ });
+ sounds.createClip().load('music/interface_Swish_Swish_Swish_03.wav', function(soundClip){
+    swipe2 = soundClip;
+  });
+  sounds.createClip().load('music/interface_Music_Negative_Digital_03.wav', function(soundClip){
+    error0 = soundClip;
+  });
+  sounds.createClip().load('music/interface_Extra_Voice_Voice_05.wav', function(soundClip){
+    error1 = soundClip;
+  });
+  sounds.createClip().load('music/interface_Extra_Voice_Voice_06.wav', function(soundClip){
+    error2 = soundClip;
+  });
+sounds.createClip().load('music/interface_Extra_Voice_Voice_01.wav', function(soundClip){
+   tap = soundClip;
+ });
+ sounds.createClip().load('music/interface_Design_Wood_Complex_07.wav', function(soundClip){
+    tap2 = soundClip;
+  });
+
+sounds.createClip().load('music/interface_Main_Metal_Big_01.wav', function(soundClip){
+  cnock = soundClip;
+});
+
+function rand(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function Error() {
+
+}
+
+Error.prototype.play = function(arguments) {
+  if (rand(1,99) < 50) {
+    error1.play();
+  }else {
+    error2.play();
+  }
+};
+
+var error = new Error();
+
+
 
 
 
