@@ -409,6 +409,8 @@ function hideGame(word) {
         $('.pristavka').hide(300);
         $('.koren').hide(300);
         $('.okonchanie').hide(300);
+        $('.sufics').hide(300);
+        $('.obratochka').hide(300);
         wrightWord(getId(true));
       }else {
         wrightText(getId());
