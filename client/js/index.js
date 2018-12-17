@@ -1227,7 +1227,7 @@ $(document).ready(function () {
   $('.next').on('touchstart', function () {
     swipe2.play()
     if (rand(1,99) < 75) {
-      // alert(test.getGreeting(''));
+      alert(test.getGreeting(''));
     }
     if (mode == 1) {
       next(true);
@@ -1352,7 +1352,7 @@ $(document).ready(function () {
       if (array_choosed_word.length == 0) {
         star2.play()
         addStar(2);
-        if (rand(1,99) < 10) {
+        if (rand(1,99) < 30) {
           alert(test.getGreeting(''));
         }
         setTimeout(function () {
