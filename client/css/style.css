@@ -253,7 +253,7 @@ svg {
  }
 .part_word div{
   position: relative;
-  display: inline-grid;
+  display: unset !important;
   font-size: 0.7em;
   border-radius: 2px;
   color: #272727;
@@ -270,7 +270,7 @@ svg {
  }
 .part div{
   position: relative;
-  display: inline-grid;
+  display: unset !important;
   font-size: 0.7em;
   border-radius: 2px;
   color: #272727;
