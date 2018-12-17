@@ -730,7 +730,7 @@ div i{
   top: 50%;
   /*   left: 50%; */
   transform: translate(-0%, -50%);
-  display:inline-grid;
+  display: flex;
   background-color: #5476b3;
   color: #2d4267;
   border-radius: 5px;
