@@ -89,7 +89,39 @@ app.post('/word', function(req, res, next) {
   });
 
 });
+app.use('/removeWord', bodyParser.urlencoded({
+    extended: true
+}));
 
+app.post('/removeWord', function(req, res, next) {
+  connection.query('DELETE FROM nouns_morf where IID = '+req.body.id, function (error, results, fields) {
+    if (error) throw error;
+    res.send({status: 'ok', text: results});
+  });
+});
+
+app.use('/saveWord', bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/saveWord', function(req, res, next) {
+  connection.query(`INSERT INTO morfems SET word = '`+req.body.word+`', analis = '`+req.body.analis+`', morf_word = '`+req.body.morf_word+`'`, function (error, results, fields) {
+    if (error) throw error;
+    res.send({status: 'ok', text: results});
+  });
+});
+
+app.use('/getWord_toAdd', bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/getWord_toAdd', function(req, res, next) {
+  // connection.query('select * from nouns_morf WHERE `IID` > 2000 ORDER BY RAND() LIMIT 1', function (error, results, fields) {
+  connection.query('select * from nouns_morf WHERE word like "%ый%" order by Rand() LIMIT 1', function (error, results, fields) {
+    if (error) throw error;
+    res.send({status: 'ok', text: results});
+  });
+});
 app.use('/getWords', bodyParser.urlencoded({
     extended: true
 }));

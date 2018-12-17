@@ -225,6 +225,21 @@ var addPrompt = function addPrompt(i) {
     }
   }, 150);
 };
+
+var addPromptFastForWord_toAdd = function addPromptFastForWord_toAdd(i) {
+  setTimeout(function () {
+    star0.play();
+    if (runPrompt && prompt_[i]) {
+      input.value = input.value + prompt_[i];
+      onInputChange();
+      addPromptFastForWord_toAdd(i + 1);
+    }else {
+      startGame(true);
+      analisLitersToWord_toAdd();
+      eventOnLit();
+    }
+  }, 50);
+};
 var addPromptFastForWord = function addPromptFastForWord(i) {
   setTimeout(function () {
     star0.play();
@@ -268,11 +283,50 @@ function showStart() {
     top: '+=50%'
   }, 450);
 }
+var timer = false;
+function setTimer(sec) {
+  $('.timer').text(sec < 10 ? '0:'+'0' + sec : '0:'+sec);
+  if (!timer) {
+    timer = setInterval(function () {
+      sec--;
+      $('.timer').text(sec < 10 ? '0:'+'0' + sec : '0:'+sec);
+      if (sec == 0) {
+        if (mode == 2) {
+          next_word();
+        }else if (mode == 1) {
+          next(true);
+          $('.interface').css('z-index', 'auto');
+        }
+      }
+    }, 1000);
+  }else {
+    clearInterval(timer);
+    timer = setInterval(function () {
+      sec--;
+      $('.timer').text(sec < 10 ? '0:'+'0' + sec : '0:'+sec);
+      if (sec == 0) {
+        if (mode == 2) {
+          next_word()
+        }else if (mode == 1) {
+          next(true);
+        }
+      }
+    }, 1000);
+  }
+}
 function startGame(word) {
 swipe.play();
+
   $('.stars').animate({
-    top: '+=50%'
+    top: '10%'
   }, 250);
+  if (localStorage.getItem('time_star_mode') == 'time') {
+    $('.timer').animate({
+      top: '20%'
+    }, 250, function () {
+      setTimer(10);
+    });
+  }
   $('.home').animate({
     right: '+=50%'
   }, 300);
@@ -304,10 +358,15 @@ function hideGame(word) {
     $('hr').remove();
   })
   $('.stars').animate({
-    top: '-=50%'
+    top: '-40%'
   }, 250, function () {
     newStars();
   });
+  if (localStorage.getItem('time_star_mode') == 'time') {
+    $('.timer').animate({
+      top: '-40%'
+    }, 250);
+  }
   $('.home').animate({
     right: '-=50%'
   }, 300);
@@ -332,15 +391,43 @@ function hideGame(word) {
   $('.bulb').animate({
     top: '-=50%'
   }, 550, function () {
-    if (word) {
-      $('.pristavka').hide(300);
-      $('.koren').hide(300);
-      $('.okonchanie').hide(300);
-      wrightWord(getId(true));
+    if (mode == 3) {
+      $('.pristavka').hide();
+      $('.koren').hide();
+      $('.sufics').hide();
+      $('.okonchanie').hide();
+      $('.obratochka').hide();
+      $('.star1 i').removeClass('fa-star-o');
+      $('.star1 i').addClass('fa-trash-o');
+      $('.star2 i').removeClass('fa-star-o');
+      $('.star2 i').addClass('fa-arrow-right');
+      $('.star3 i').removeClass('fa-star-o');
+      $('.star3 i').addClass('fa-paint-brush');
+      wrightWord_toAdd();
     }else {
-      wrightText(getId());
+      if (word) {
+        $('.pristavka').hide(300);
+        $('.koren').hide(300);
+        $('.okonchanie').hide(300);
+        wrightWord(getId(true));
+      }else {
+        wrightText(getId());
+      }
     }
   });
+}
+function wrightWord_toAdd() {
+  $.ajax({
+    type: "POST",
+    url: "/getWord_toAdd",
+    success: function(data){
+        text_now = data.text[0];
+        input.value = '';
+        var tmp_text = ' '+text_now.word;
+        prompt_ = tmp_text.split('');
+        addPromptFastForWord_toAdd(0);
+      }
+    });
 }
 function wrightWord(text) {
   text_now = array_word[text];
@@ -377,7 +464,16 @@ function getId(word) {
 
   return mayId
 }
+
+function next_word_toAdd() {
+    localStorage.setItem('score', Number(localStorage.getItem('score'))+ 1);
+    checkHelp();
+    hideGame(true);
+}
+
+
 function next_word() {
+  clearInterval(timer);
     var count_stars_on_this_words = 0;
     $('.stars div i').each(function () {
       if ($(this).hasClass('fa-star') == true) {
@@ -400,6 +496,7 @@ function next_word() {
 }
 
 function next(hide) {
+  clearInterval(timer);
   if (hide) {
     var count_stars_on_this_words = 0;
     $('.stars div i').each(function () {
@@ -453,10 +550,19 @@ function fill_word(part, color) {
       }
     });
 }
+function analisLitersToWord_toAdd() {
+  $('#text span').each(function () {
+    if ($(this).text() != ' ') {
+      this.dataset.part = 1;
+    }
+  });
+}
 function analisLitersToWord() {
   array_choosed_word = JSON.parse(text_now.analis);
+  console.log(array_choosed_word);
   var array_morfem = text_now.morf_word.split('-');
   morfems_now2 = [];
+  morfems_now = [];
   array_choosed_word.forEach(function (elem, index) {
     morfems_now2.push({
         lit: array_morfem[index],
@@ -533,6 +639,10 @@ if (localStorage.getItem('words') == null) {
 if (localStorage.getItem('score') == null) {
   localStorage.setItem('score', '0');
 }
+if (localStorage.getItem('time_star_mode') == null) {
+  localStorage.setItem('time_star_mode', 'star');
+}
+
 // localStorage.setItem('words', '[]');
 // localStorage.setItem('ids', '[0]');
 function hideStart(no_start) {
@@ -599,6 +709,12 @@ function eventOnLit() {
     }
   });
 
+
+
+
+
+
+
   $('.text span').on('touchmove', function (e) {
     if (selected_morfem != 0) {
       var choosed_lit = document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
@@ -626,59 +742,80 @@ function eventOnLit() {
   });
 
   $('.text span').on('touchend', function (e) {
-    if (selected_morfem != 0) {
-      // if (selected_morfem == 1) {
-        var morfem = '';
-        $('.filter').each(function () {
-          morfem += $(this).text();
-        });
-        if (morfem == chack_morfem(selected_morfem)) {
-          //success
-          var star_two = false;
-          var end_game = 0;
-          morfems_now2.forEach(elem => {
-            if (elem.lit == morfem) {
-              elem.analised = true;
-            }
-            if (elem.analised == true) {
-              end_game++;
-            }
+    if (mode == 2) {
+      if (selected_morfem != 0) {
+        // if (selected_morfem == 1) {
+          var morfem = '';
+          $('.filter').each(function () {
+            morfem += $(this).text();
           });
-          if (end_game != morfems_now2.length) {
-            star.play();
-            if (selected_morfem != 2) {
+          if (morfem == chack_morfem(selected_morfem)) {
+            //success
+            var star_two = false;
+            var end_game = 0;
+            morfems_now2.forEach(elem => {
+              if (elem.lit == morfem) {
+                elem.analised = true;
+              }
+              if (elem.analised == true) {
+                end_game++;
+              }
+            });
+            if (end_game != morfems_now2.length) {
+              star.play();
+              if (selected_morfem != 2) {
+                addStar(0);
+              }else if (selected_morfem == 2) {
+                addStar(1);
+              }
+            }else {
+              star2.play();
               addStar(0);
-            }else if (selected_morfem == 2) {
               addStar(1);
+              addStar(2);
+              next_word();
             }
           }else {
-            star2.play();
-            addStar(0);
-            addStar(1);
-            addStar(2);
-            next_word();
+            //error
+            error_counts++;
+            if (selected_morfem == 1) {
+              $('.pristavka').hide();
+            }else if (selected_morfem == 2) {
+              $('.koren').hide();
+            }else if (selected_morfem == 3) {
+              $('.sufics').hide();
+            }else if (selected_morfem == 4) {
+              $('.okonchanie').hide();
+            }else if (selected_morfem == 5) {
+              $('.obratochka').hide();
+            }
+            error.play();
+            console.log('error');
           }
-        }else {
-          //error
-          error_counts++;
-          if (selected_morfem == 1) {
-            $('.pristavka').hide();
-          }else if (selected_morfem == 2) {
-            $('.koren').hide();
-          }else if (selected_morfem == 3) {
-            $('.sufics').hide();
-          }else if (selected_morfem == 4) {
-            $('.okonchanie').hide();
-          }else if (selected_morfem == 5) {
-            $('.obratochka').hide();
-          }
-          error.play();
-          console.log('error');
-        }
-      // }
-      $('.text span').each(function () {
-        $(this).removeClass('filter');
-      })
+        // }
+        $('.text span').each(function () {
+          $(this).removeClass('filter');
+        })
+      }
+    }else if (mode == 3) {
+      if (selected_morfem != 0) {
+        // if (selected_morfem == 1) {
+          var morfem = '';
+          $('.filter').each(function () {
+            morfem += $(this).text();
+            this.dataset.part = selected_morfem;
+            this.dataset.edited = 'edited';
+          });
+          star.play();
+          // $('.pristavka').hide();
+          // $('.koren').hide();
+          // $('.sufics').hide();
+          // $('.okonchanie').hide();
+          // $('.obratochka').hide();
+          $('.text span').each(function () {
+          $(this).removeClass('filter');
+        })
+      }
     }
   });
 
@@ -711,6 +848,7 @@ var error_counts = 0;
 var part_block;
 var array_choosed_word = [];
 var choose;
+var morfems_toAdd = [];
 checkHelp();
 window.addEventListener('resize', resizePage);
 input.addEventListener('keyup', keyup);
@@ -722,9 +860,9 @@ $(document).ready(function () {
   getWords();
   checkHelp();
   $('.bulb').on('touchstart', function () {
+    if (mode != 0) {
       if ($(this).hasClass('star-added')) {
         tap.play();
-        // if (mode == 1) {
         $('#text span').each(function () {
           if ($(this).data('part') == '1') {
             $(this).css('background-color', '#93a3bf');
@@ -743,33 +881,116 @@ $(document).ready(function () {
             $(this).css('opacity', '0.5');
           }
         });
+        if (localStorage.getItem('score') > 19) {
+          alert(test.getGreeting(''));
+        }
         localStorage.setItem('score', Number(localStorage.getItem('score'))-10);
-        // }else {
-        //
-        // }
       }else {
+        Alert.error();
         error.play();
       }
-
+    }
     checkHelp();
-    alert(test.getGreeting(''));
-
   });
+
+  function Alert() { }
+  Alert.prototype.error = function(arg={}) {
+    $('.alert').prepend('<img src="/img/cat/cry_alpha.gif">');
+    $('.alert').css('background-color', '#bd3a5f');
+    $('.alert_title').text('Неудача');
+    $('.alert_title').css('color','#481824');
+    $('.alert_desc').text('У вас недостаточно очков подсказок. Посмотрите рекламу для получения подсказки.');
+    $('.alert_desc').css('color', '#481824');
+    $('.alert').show(300);
+    setTimeout(function () {
+      alert(test.getGreeting(''));
+      setTimeout(function () {
+        $('.alert').hide( 300, function () {
+          $(this).find('img').remove();
+        });
+      }, 2000);
+      localStorage.setItem('score', 10);
+      checkHelp();
+    }, 350);
+  };
+  Alert.prototype.success = function(arg={}) {
+    $('.alert').prepend('<img src="/img/cat/fun_alpha.gif">');
+    $('.alert').css('background-color', '#56b29c');
+    $('.alert_title').text('Успех');
+    $('.alert_title').css('color','#2b5f52');
+    $('.alert_desc').text(arg.desc);
+    $('.alert_desc').css('color', '#2b5f52');
+    $('.alert').show(300);
+  };
+  var Alert = new Alert();
+
+  $('.alert').on('touchstart', function () {
+    $(this).hide(300, function () {
+      $(this).find('img').remove();
+    });
+  });
+
+
+
+
   $('.competition').on('touchstart', function () {
-    // if (localStorage.getItem('username') == null) {
-    //   var username = prompt("Введите ваш username");
-    //   localStorage.setItem('username', username);
-    // }
-    tap2.play();
-    mode = 1;
+    if (localStorage.getItem('username') == null) {
+
+    }
+      $('.star1 i').removeClass('fa-star-o');
+      $('.star1 i').addClass('fa-trash-o');
+      $('.star2 i').removeClass('fa-star-o');
+      $('.star2 i').addClass('fa-arrow-right');
+      $('.star3 i').removeClass('fa-star-o');
+      $('.star3 i').addClass('fa-paint-brush');
+
+    $('.star1').on('touchstart', function () {
+      tap2.play();
+      $.ajax({
+        type: "POST",
+        url: "/removeWord",
+        data: {id: text_now.IID},
+        success: function(data){
+          console.log(data);
+          next_word_toAdd();
+          }
+        });
+    });
+    $('.star2').on('touchstart', function () {
+      tap2.play()
+      next_word_toAdd();
+    });
+    $('.star3').on('touchstart', function () {
+      tap2.play()
+      $('.pristavka').hide();
+      $('.koren').hide();
+      $('.sufics').hide();
+      $('.okonchanie').hide();
+      $('.obratochka').hide();
+    });
+
+    tap2.play()
+    mode = 3;
     $('#arrow4').hide();
     $('#arrow5').hide();
     $('#arrow6').hide();
+    $('.switch_mode').hide(150, function () {
+      $('.switch_mode').remove();
+    });
     $('.sint').hide(200);
     $('.morf').hide(250);
     $('.sale').hide(300);
     checkHelp();
-    hideStart();
+    $('.stat').animate({
+      top: '-=50%'
+    }, 350);
+    $('.bulb').animate({
+      top: '-=50%'
+    }, 450);
+    $('.song').animate({
+      top: '-=50%'
+    }, 400, function () {
+    });
     $('.mode-select .sintacs').animate({
       left: '-50%'
     },300);
@@ -780,6 +1001,7 @@ $(document).ready(function () {
       top: '-50%'
     },300, function () {
       $('.mode-select').hide();
+      wrightWord_toAdd();
     });
   });
   $('.sintacs').on('touchstart', function () {
@@ -788,6 +1010,9 @@ $(document).ready(function () {
     $('#arrow4').hide();
     $('#arrow5').hide();
     $('#arrow6').hide();
+    $('.switch_mode').hide(150, function () {
+      $('.switch_mode').remove();
+    });
     $('.sint').hide(200);
     $('.morf').hide(250);
     $('.sale').hide(300);
@@ -811,6 +1036,9 @@ $(document).ready(function () {
     $('#arrow4').hide();
     $('#arrow5').hide();
     $('#arrow6').hide();
+    $('.switch_mode').hide(150, function () {
+      $('.switch_mode').remove();
+    });
     $('.sint').hide(200);
     $('.morf').hide(250);
     $('.sale').hide(300);
@@ -840,15 +1068,52 @@ $(document).ready(function () {
   });
   $('.start').on('touchstart', function () {
     $('#arrow4').show();
-    $('.sint').show(300);
+    $('.sint').show(200);
     $('#arrow5').show();
-    $('.morf').show(300);
+    $('.morf').show(200);
     $('#arrow6').show();
-    $('.sale').show(300);
+    $('.sale').show(200);
     $('.mode-select').show(200);
+    $('.switch_mode').show(350,function () {
+      $('.switch_mode .cat').animate({
+        opacity: '1'
+      },300);
+    });
     checkHelp();
     tap.play()
-    hideStart(true)
+    hideStart(true);
+    setTimeout(function () {
+      $('.start').remove();
+    }, 500);
+  });
+  $('.switch_mode label i').on('touchstart', function () {
+    if(localStorage.getItem('time_star_mode') == 'star'){
+      $(this).removeClass('fa-star');
+      $(this).addClass('fa-clock-o');
+      localStorage.setItem('time_star_mode', 'time');
+      $('.timer').show();
+      $('.stars').hide();
+      $(this).animate({
+        left: '63%'
+      }, 100);
+      swipe2.play();
+      $('.time').toggle(200);
+      $('.stay').toggle(200);
+      $('.switch_mode span').text('На Время');
+    }else {
+      localStorage.setItem('time_star_mode', 'star');
+      $(this).removeClass('fa-clock-o');
+      $(this).addClass('fa-star');
+      $('.timer').hide();
+      $('.stars').show();
+      $(this).animate({
+        left: '0%'
+      }, 100);
+      swipe.play();
+      $('.stay').toggle(200);
+      $('.time').toggle(200);
+      $('.switch_mode span').text('На Звёзды');
+    }
   });
   $('.switch label i').on('touchstart', function () {
     if(parseInt($(this).css('left')) < 10){
@@ -962,12 +1227,69 @@ $(document).ready(function () {
   $('.next').on('touchstart', function () {
     swipe2.play()
     if (rand(1,99) < 75) {
-      alert(test.getGreeting(''));
+      // alert(test.getGreeting(''));
     }
     if (mode == 1) {
       next(true);
-    }else {
+    }else if(mode == 2) {
       next_word();
+    }else if (mode == 3) {
+      console.log(text_now);
+      text_now = {
+        id: text_now.IID,
+        word: text_now.word,
+        analis: [],
+        morf_word: ''
+      };
+
+      var tmp_array = [];
+      for (let i = $('#text span').length; i > 0; i--) {
+        let letter = $('#text span')[i];
+        console.log(letter);
+        if (typeof letter !== 'undefined') {
+          if (letter.dataset.edited == 'edited') {
+            if ($.inArray(letter.dataset.part, tmp_array) === -1) {
+                letter.dataset.tire = '-';
+            }
+            tmp_array.push(letter.dataset.part);
+          }
+        }
+      }
+
+      var unique = [];
+      $('#text span').each(function (i, e) {
+        if (this.dataset.edited == 'edited') {
+            text_now.analis.push(this.dataset.part);
+            text_now.morf_word += $(e).text();
+            if (this.dataset.tire == '-') {
+              text_now.morf_word += '-';
+            }
+        }
+      });
+      text_now.morf_word = text_now.morf_word.slice(0, -1);
+      $.each(text_now.analis, function(i, el){
+          if($.inArray(el, unique) === -1) unique.push(el);
+      });
+
+      text_now.analis = JSON.stringify(unique);
+      console.log(text_now);
+      $.ajax({
+        type: "POST",
+        url: "/saveWord",
+        data: text_now,
+        success: function(data){
+          console.log(data);
+          $.ajax({
+            type: "POST",
+            url: "/removeWord",
+            data: {id: text_now.id},
+            success: function(data){
+              console.log(data);
+              next_word_toAdd();
+              }
+            });
+          }
+        });
     }
   });
 
@@ -991,7 +1313,6 @@ $(document).ready(function () {
       }
     }
   });
-
 
 
 
@@ -1055,6 +1376,23 @@ $(document).ready(function () {
   });
 })
 
+if (localStorage.getItem('time_star_mode') == 'time') {
+  $('.stars').hide();
+  $('.stay').hide();
+  $('.timer').show();
+  $('.switch_mode .time').show();
+  $('.switch_mode label i').css('left', '63%');
+  $('.switch_mode span').text('На Время');
+  $('.switch_mode label i').addClass('fa-clock-o');
+}else {
+  $('.stars').show();
+  $('.stay').show();
+  $('.timer').hide();
+  $('.switch_mode .time').hide();
+  $('.switch_mode label i').css('left', '0%');
+  $('.switch_mode span').text('На Звёзды');
+  $('.switch_mode label i').addClass('fa-star');
+}
 
 var sounds = new WebAudiox.GameSounds();
 var star0;

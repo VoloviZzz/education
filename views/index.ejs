@@ -5,32 +5,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Разбирайка</title>
-
-
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-
 </head>
 
 <body>
 
+  <div class="alert">
+    <p class="alert_title"></p>
+    <p class="alert_desc"></p>
+  </div>
+
   <p id="offscreen-text" class="offscreen-text"></p>
-<p id="text" class="text"></p>
-
-<svg id="svg">
-</svg>
-
-  <input type="text" class="input" id="input" />
-  <div class="statistic">
-    <p class="list1">Разобранные</p>
-    <p class="list2">штуки</p>
-    <p class="user_stat1">Статистика</p>
-    <p class="user_stat2">Пользователя</p>
-    <p class="apps1">Наши</p>
-    <p class="apps2">приложения</p>
-    <p class="sint">Разбор по членам предложения</p>
-    <p class="morf">Разбор слова по составу</p>
-    <p class="sale">Разбери наибольшее количество предложений и выиграй денежные призы</p>
+  <p id="text" class="text"></p>
+  <svg id="svg">
+  </svg>
+  <div style="display: none" class="switch_mode">
+    <label for="toggle"><i class="fa"></i></label>
+    <span>На Звёзды</span>
+    <img class="cat time" src="/img/cat/time_alpha.gif" alt="">
+    <img class="cat stay" src="/img/cat/stay_alpha.gif" alt="">
+  </div>
+    <input type="text" class="input" id="input" />
+    <div class="statistic">
+      <p class="list1">Разобранные</p>
+      <p class="list2">штуки</p>
+      <p class="user_stat1">Статистика</p>
+      <p class="user_stat2">Пользователя</p>
+      <p class="apps1">Наши</p>
+      <p class="apps2">приложения</p>
+      <p class="sint">Разбор по членам предложения</p>
+      <p class="morf">Разбор слова по составу</p>
+      <p class="sale">Разбери наибольшее количество предложений и выиграй денежные призы</p>
 
     <!-- стрелки -->
 
@@ -121,7 +127,9 @@
     </div>
   </div>
   <div class="interface">
-    <div class="i-item start"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
+    <div class="i-item start">
+      <img src="/img/cat/read_alpha.gif" class="cat read" alt="">
+      <i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
     <div class="i-item stat"><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></div>
     <div class="i-item next"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></div>
     <div class="i-item home"><i class="fa fa-home" aria-hidden="true"></i></div>
@@ -131,6 +139,9 @@
       <div class="star1"><i class="fa fa-star-o" aria-hidden="true"></i></div>
       <div class="star2"><i class="fa fa-star-o" aria-hidden="true"></i></div>
       <div class="star3"><i class="fa fa-star-o" aria-hidden="true"></i></div>
+    </div>
+    <div class="timer">
+      0:00
     </div>
     <div class="figures">
       <div class="pristavka"></div>
