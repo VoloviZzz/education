@@ -1305,28 +1305,27 @@ $(document).ready(function () {
           if($.inArray(el, unique) === -1) unique.push(el);
       });
 
-      text_now.analis = JSON.stringify(unique);
-      console.log(text_now);
-      if (text_now.analis.length == 0) {
+      if (unique.length == 0) {
         next_word_toAdd();
-      }else {  
-      $.ajax({
-        type: "POST",
-        url: "/saveWord",
-        data: text_now,
-        success: function(data){
-          console.log(data);
-          $.ajax({
-            type: "POST",
-            url: "/removeWord",
-            data: {id: text_now.id},
-            success: function(data){
-              console.log(data);
-              next_word_toAdd();
-              }
-            });
-          }
-        });
+      }else {
+        text_now.analis = JSON.stringify(unique);
+        $.ajax({
+          type: "POST",
+          url: "/saveWord",
+          data: text_now,
+          success: function(data){
+            console.log(data);
+            $.ajax({
+              type: "POST",
+              url: "/removeWord",
+              data: {id: text_now.id},
+              success: function(data){
+                console.log(data);
+                next_word_toAdd();
+                }
+              });
+            }
+          });
       }
     }
   });
