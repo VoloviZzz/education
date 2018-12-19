@@ -897,6 +897,7 @@ $(document).ready(function () {
 
   function Alert() { }
   Alert.prototype.error = function(arg={}) {
+    $('.alert').unbind();
     $('.alert').prepend('<img src="/img/cat/cry_alpha.gif">');
     $('.alert').css('background-color', '#bd3a5f');
     $('.alert_title').text('Неудача');
@@ -916,6 +917,7 @@ $(document).ready(function () {
     }, 350);
   };
   Alert.prototype.success = function(arg={}, callback) {
+    $('.alert').unbind();
     $('.alert').find('img').remove();
     if (arg.img) {
       $('.alert').prepend('<img src="'+arg.img+'">');
@@ -985,7 +987,6 @@ $(document).ready(function () {
         url: "/removeWord",
         data: {id: text_now.IID},
         success: function(data){
-          console.log(data);
           next_word_toAdd();
           }
         });
@@ -1268,7 +1269,6 @@ $(document).ready(function () {
     }else if(mode == 2) {
       next_word();
     }else if (mode == 3) {
-      console.log(text_now);
       text_now = {
         id: text_now.IID,
         word: text_now.word,
@@ -1279,7 +1279,6 @@ $(document).ready(function () {
       var tmp_array = [];
       for (let i = $('#text span').length; i > 0; i--) {
         let letter = $('#text span')[i];
-        console.log(letter);
         if (typeof letter !== 'undefined') {
           if (letter.dataset.edited == 'edited') {
             if ($.inArray(letter.dataset.part, tmp_array) === -1) {
@@ -1314,13 +1313,11 @@ $(document).ready(function () {
           url: "/saveWord",
           data: text_now,
           success: function(data){
-            console.log(data);
             $.ajax({
               type: "POST",
               url: "/removeWord",
               data: {id: text_now.id},
               success: function(data){
-                console.log(data);
                 next_word_toAdd();
                 }
               });
