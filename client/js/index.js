@@ -1307,6 +1307,9 @@ $(document).ready(function () {
 
       text_now.analis = JSON.stringify(unique);
       console.log(text_now);
+      if (text_now.analis.length == 0) {
+        next_word_toAdd();
+      }else {  
       $.ajax({
         type: "POST",
         url: "/saveWord",
@@ -1324,6 +1327,7 @@ $(document).ready(function () {
             });
           }
         });
+      }
     }
   });
 

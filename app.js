@@ -105,7 +105,7 @@ app.use('/saveWord', bodyParser.urlencoded({
 }));
 
 app.post('/saveWord', function(req, res, next) {
-  connection.query(`INSERT INTO morfems SET word = '`+req.body.word+`', analis = '`+req.body.analis+`', morf_word = '`+req.body.morf_word+`'`, function (error, results, fields) {
+  connection.query(`INSERT INTO morfems_public SET word = '`+req.body.word+`', analis = '`+req.body.analis+`', morf_word = '`+req.body.morf_word+`'`, function (error, results, fields) {
     if (error) throw error;
     res.send({status: 'ok', text: results});
   });
