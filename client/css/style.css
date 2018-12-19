@@ -697,8 +697,8 @@ div i{
   display: none;
   position: fixed;
   top: 3%;
-  left: 76.5%;
-  width: 90px;
+  left: 74.5%;
+  width: 196px;
   color: #72818a;
 }
 
@@ -1005,7 +1005,7 @@ div i{
 }
 .alert img{
   position: absolute;
-  width: 70%;
+  width: 25%;
   top: 30%;
   left: 50%;
   transform: translate(-50%,-50%);

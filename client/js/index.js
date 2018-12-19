@@ -915,20 +915,32 @@ $(document).ready(function () {
       checkHelp();
     }, 350);
   };
-  Alert.prototype.success = function(arg={}) {
-    $('.alert').prepend('<img src="/img/cat/fun_alpha.gif">');
+  Alert.prototype.success = function(arg={}, callback) {
+    $('.alert').find('img').remove();
+    if (arg.img) {
+      $('.alert').prepend('<img src="'+arg.img+'">');
+    }else {
+      $('.alert').prepend('<img src="/img/cat/happy_alpha.gif">');
+    }
     $('.alert').css('background-color', '#56b29c');
-    $('.alert_title').text('Успех');
+    $('.alert_title').text(arg.title);
     $('.alert_title').css('color','#2b5f52');
     $('.alert_desc').text(arg.desc);
     $('.alert_desc').css('color', '#2b5f52');
     $('.alert').show(300);
+    if (callback) {
+      $('.alert').on('touchstart', callback);
+    }else {
+      $('.alert').on('touchstart', function () {
+        $(this).hide(300);
+      });
+    }
   };
   var Alert = new Alert();
 
   $('.alert').on('touchstart', function () {
     $(this).hide(300, function () {
-      $(this).find('img').remove();
+      // $(this).find('img').remove();
     });
   });
 
@@ -936,9 +948,29 @@ $(document).ready(function () {
 
 
   $('.competition').on('touchstart', function () {
-    if (localStorage.getItem('username') == null) {
+    localStorage.setItem('time_star_mode', 'star');
+    $(this).removeClass('fa-clock-o');
+    $(this).addClass('fa-star');
+    $('.timer').hide();
+    $('.stars').show();
+    $(this).animate({
+      left: '0%'
+    }, 100);
+    swipe.play();
+    $('.stay').toggle(200);
+    $('.time').toggle(200);
+    $('.switch_mode span').text('На Звёзды');
+    Alert.success({title:'Ура!', desc:'Вам доступно добавление слов. Вы сможете разбирать слова и сохранять их для разбора другими пользователями.'}, function () {
+      Alert.success({img:'/img/cat/1.png', title:'Обучение', desc:'Если вы ситаете, что слово слишком странное и не подходит для разбора - нажмите на корзину. Слово будет удалено для всех.'}, function () {
+        Alert.success({img:'/img/cat/2.png', title:'Обучение', desc:'Если вы не знаете как разобрать и хотите пропустить его - нажмите на стрелочку.'}, function () {
+          Alert.success({img:'/img/cat/3.png', title:'Обучение', desc:'Если вы ошиблись - нажмите на кисть. Разбор сотрётся, вместе с вашей ошибкой.'});
+        });
+      });
+    });
 
-    }
+    // if (localStorage.getItem('username') == null) {
+    //
+    // }
       $('.star1 i').removeClass('fa-star-o');
       $('.star1 i').addClass('fa-trash-o');
       $('.star2 i').removeClass('fa-star-o');
