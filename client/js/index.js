@@ -16,29 +16,29 @@ var _createClass = function () {
       throw new TypeError("Cannot call a class as a function");
     }
   }
-  var selectSVG = function selectSVG(id) {
-  var el = document.getElementById(id);
-  return new SVGElement(el);
-};
-
-var createSVG = function createSVG(type) {
-  var el = document.createElementNS('http://www.w3.org/2000/svg', type);
-  return new SVGElement(el);
-};var
-
-SVGElement = function () {
-  function SVGElement(element) {_classCallCheck(this, SVGElement);
-    this.element = element;
-  }_createClass(SVGElement, [{ key: 'set', value: function set(
-
-    attributeName, value) {
-      this.element.setAttribute(attributeName, value);
-    } }, { key: 'style', value: function style(
-
-    property, value) {
-      this.element.style[property] = value;
-    } }]);return SVGElement;}();
-
+//   var selectSVG = function selectSVG(id) {
+//   var el = document.getElementById(id);
+//   return new SVGElement(el);
+// };
+//
+// var createSVG = function createSVG(type) {
+//   var el = document.createElementNS('http://www.w3.org/2000/svg', type);
+//   return new SVGElement(el);
+// };var
+//
+// SVGElement = function () {
+//   function SVGElement(element) {_classCallCheck(this, SVGElement);
+//     this.element = element;
+//   }_createClass(SVGElement, [{ key: 'set', value: function set(
+//
+//     attributeName, value) {
+//       this.element.setAttribute(attributeName, value);
+//     } }, { key: 'style', value: function style(
+//
+//     property, value) {
+//       this.element.style[property] = value;
+//     } }]);return SVGElement;}();
+//
 
 var colors = [
 { main: '#FBDB4A', shades: ['#FAE073', '#FCE790', '#FADD65', '#E4C650'] },
@@ -49,7 +49,7 @@ var colors = [
 { main: '#2BB19B', shades: ['#4DBFAD', '#73CDBF', '#27A18D', '#1F8171'] },
 { main: '#70B984', shades: ['#7FBE90', '#98CBA6', '#68A87A', '#5E976E'] }];
 
-var svg = selectSVG('svg');
+// var svg = selectSVG('svg');
 var text = document.getElementById('text');
 var offscreenText = document.getElementById('offscreen-text');
 var input = document.getElementById('input');
@@ -66,10 +66,10 @@ var runPrompt = true;
 var resizePage = function resizePage() {
   width = window.innerWidth;
   height = window.innerHeight;
-  svg.set('height', height);
-  svg.set('width', width);
-  svg.set('viewBox', '0 0 ' + width + ' ' + height);
-  resizeLetters();
+  // svg.set('height', height);
+  // svg.set('width', width);
+  // svg.set('viewBox', '0 0 ' + width + ' ' + height);
+  // resizeLetters();
 };
 
 var resizeLetters = function resizeLetters() {
