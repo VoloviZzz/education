@@ -857,7 +857,11 @@ input.addEventListener('keyup', keyup);
 // input.focus();
 $(document).ready(function () {
   input.value = '';
-  addPrompt(0);
+  // addPrompt(0);
+  setTimeout(function () {
+    showStart();
+  }, 1500);
+  // showStart();
   getText();
   getWords();
   checkHelp();
